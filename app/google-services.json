@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "11792051852",
+    "firebase_url": "https://khalis-milk.firebaseio.com",
+    "project_id": "khalis-milk",
+    "storage_bucket": "khalis-milk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11792051852:android:d5072aecefedfd52d055a9",
+        "android_client_info": {
+          "package_name": "pakzarzameen.com.pk.khalis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11792051852-58h1d29ba8t3u91k99nt09qh69t4vpei.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pakzarzameen.com.pk.khalis",
+            "certificate_hash": "f5c50ed4b8a74a03e4ae0c021daa22d316392fdf"
+          }
+        },
+        {
+          "client_id": "11792051852-tl96pdifrk7m0f09bv4msrgtk2ab5ete.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqllVu8PX8ODTpiG1iEbKjQUCcY58oUQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11792051852-tl96pdifrk7m0f09bv4msrgtk2ab5ete.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
