@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llmilk"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:weightSum="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ask">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="Milk"
+            android:textColor="#000"
+            android:textSize="24dp" />
+
+        <net.igenius.customcheckbox.CustomCheckBox
+            android:id="@+id/box_milk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            app:color_checked="@android:color/holo_blue_dark"
+            app:color_tick="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llyogurt"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ask">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="Yogurt"
+            android:textColor="#000"
+            android:textSize="24dp" />
+
+        <net.igenius.customcheckbox.CustomCheckBox
+            android:id="@+id/box_yogurt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            app:color_checked="@android:color/holo_blue_dark"
+            app:color_tick="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llquantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llmilk">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kg"
+            android:textSize="18dp" />
+
+        <com.shawnlin.numberpicker.NumberPicker
+            android:id="@+id/number_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:np_height="50dp"
+            app:np_max="10"
+            app:np_min="1"
+            app:np_orientation="horizontal"
+            app:np_selectedTextColor="@android:color/black"
+            app:np_selectedTextSize="23dp"
+            app:np_textColor="@android:color/black"
+            app:np_textSize="18dp"
+            app:np_value="1"
+            app:np_width="150dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llquantity2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llquantity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kg"
+            android:textSize="18dp" />
+
+        <com.shawnlin.numberpicker.NumberPicker
+            android:id="@+id/number_picker2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:np_height="50dp"
+            app:np_max="10"
+            app:np_min="1"
+            app:np_orientation="horizontal"
+            app:np_selectedTextColor="@android:color/black"
+            app:np_selectedTextSize="23dp"
+            app:np_textColor="@android:color/black"
+            app:np_textSize="18dp"
+            app:np_value="1"
+            app:np_width="150dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:weightSum="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llquantity2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="One time order"
+            android:textColor="#000"
+            android:textSize="18dp" />
+
+        <net.igenius.customcheckbox.CustomCheckBox
+            android:id="@+id/order_one"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            app:color_checked="@android:color/holo_blue_dark"
+            app:color_tick="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llordersch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llquantity2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="Schedule Order"
+            android:textColor="#000"
+            android:textSize="18dp" />
+
+        <net.igenius.customcheckbox.CustomCheckBox
+            android:id="@+id/schedule"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            app:color_checked="@android:color/holo_blue_dark"
+            app:color_tick="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lldropdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llorder">
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ask"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="68dp"
+        android:text="What do you want?"
+        android:textColor="#000"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/milk_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Milk"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/label_text"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/llquantity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/llquantity"
+
+        />
+
+    <TextView
+        android:id="@+id/yogurt_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Yogurt"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/label_text"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/llquantity2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/llquantity2"
+
+        />
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llmilk"
+        app:mtf_backgroundColor="@android:color/background_light"
+        app:mtf_image="@drawable/ic_add_location_black_24dp"
+        app:mtf_labelColor="#000">
+
+        <EditText
+            android:id="@+id/addresstext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card"
+            android:hint="Address"
+            android:textColor="#000"
+            android:textSize="18dp" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:onClick="startNextActivity"
+        android:src="@drawable/ic_arrow_forward"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

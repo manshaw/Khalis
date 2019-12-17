@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:weightSum="2">
+
+    <DatePicker
+        android:id="@+id/datePickerExample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:endYear="2100"
+        android:maxDate="12/31/2100"
+        android:minDate="01/01/2000"
+        android:spinnersShown="true"
+        android:startYear="2000" />
+
+    <EditText
+        android:id="@+id/timepicker"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="290dp"
+        android:focusable="false"
+        android:hint="Specify Time"
+        android:inputType="time" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:text="Start from: "
+        android:textColor="@android:color/black"
+        android:textSize="15dp" />
+
+    <com.dpro.widgets.WeekdaysPicker
+        android:id="@+id/weekdays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:background_color="@android:color/white"
+        app:border_color="@android:color/holo_blue_dark"
+        app:highlight_color="@android:color/holo_blue_dark" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:onClick="startNextActivity"
+        android:src="@drawable/ic_done_white_24dp"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:fabSize="normal" />
+
+    <com.weiwangcn.betterspinner.library.BetterSpinner
+        android:id="@+id/spinner2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="286dp"
+        android:layout_marginEnd="10dp"
+        android:hint="Schedule Time" />
+</RelativeLayout>

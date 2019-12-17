@@ -6,17 +6,19 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -26,8 +28,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 public class VerifyActivity extends AppCompatActivity {
 
+    private static final String TAG = "PhoneAuthActivity";
     private EditText etDigit1;
     private EditText etDigit2;
     private EditText etDigit3;
@@ -62,9 +68,10 @@ public class VerifyActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                mAuth.signInWithCredential(credential);
-                startNextActivity();
+
+                //startNextActivity();
                 Toast.makeText(VerifyActivity.this, "Verification Successful", Toast.LENGTH_LONG).show();
+                signInWithPhoneAuthCredential(credential);
 
             }
 
@@ -345,6 +352,34 @@ public class VerifyActivity extends AppCompatActivity {
         }
     }
 
+    private void verifyPhoneNumberWithCode(String verificationId, String code) {
+        // [START verify_with_code]
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+        // [END verify_with_code]
+        signInWithPhoneAuthCredential(credential);
+    }
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(VerifyActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+
+                            startNextActivity();
+                            // ...
+                        } else {
+                            Toast.makeText(VerifyActivity.this, "Sign in failed!", Toast.LENGTH_LONG).show();
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(VerifyActivity.this, "Invalid Code Entered", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                });
+    }
     public void resend_msg(View view) {
         if (mResendToken != null)
             resendVerificationCode(strPhoneNumber, mResendToken);
@@ -369,5 +404,11 @@ public class VerifyActivity extends AppCompatActivity {
     }
 
 
+    public void startNextActivity(View view) {
+        if (validate()) {
+            String code = etDigit1.getText().toString().trim() + etDigit2.getText().toString().trim() + etDigit3.getText().toString().trim() + etDigit4.getText().toString().trim() + etDigit5.getText().toString().trim() + etDigit6.getText().toString().trim();
+            verifyPhoneNumberWithCode(VID, code);
+        }
+    }
 }
 

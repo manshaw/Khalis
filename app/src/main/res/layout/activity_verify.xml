@@ -95,7 +95,7 @@
 
             android:onClick="startNextActivity"
             android:src="@drawable/ic_arrow_forward"
-            app:backgroundTint="@android:color/black"
+            app:backgroundTint="@android:color/holo_blue_dark"
             app:fabSize="normal" />
     </RelativeLayout>
 </LinearLayout>

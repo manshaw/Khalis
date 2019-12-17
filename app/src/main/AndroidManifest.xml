@@ -28,6 +28,10 @@
             android:windowSoftInputMode="stateVisible|adjustResize"></activity>
         <activity android:name=".VerifyActivity" />
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".NewOrderActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".AddActivity" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
