@@ -9,6 +9,7 @@
     <color name="transparent">#00000000</color>
     <color name="blue_trip">#333333</color>
     <color name="label_text">#949494</color>
+    <color name="gray">#56596a</color>
     <color name="darkGreen">#008326</color>
     <color name="lightGreen">#8cc63f</color>
     <color name="orangeTheme">#F4A503</color>
