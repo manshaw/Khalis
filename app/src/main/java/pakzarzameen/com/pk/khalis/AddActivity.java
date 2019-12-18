@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.dpro.widgets.OnWeekdaysChangeListener;
@@ -36,18 +38,21 @@ public class AddActivity extends AppCompatActivity {
     };
     BetterSpinner schedule_spinner;
     EditText timepick;
+    TextView start_text;
     FbContract contract;
     private int year1;
     private int month1;
     private int day1;
     public int hour, min;
     public Long time;
+    public boolean onetime;
     public boolean schedule_done = false;
     public boolean custom_pick = false;
     public boolean day_specified = true;
     List<String> Days = new ArrayList<>();
     DatabaseReference mDatabase;
     String user;
+    List<Integer> days_selected = new ArrayList<>();
     public static final String[] Weekdays = {"None", "Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"};
 
     @Override
@@ -58,9 +63,13 @@ public class AddActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("/Test/User/" + user);
         Calendar currCalendar = Calendar.getInstance();
         contract = (FbContract) getIntent().getSerializableExtra("Firebase");
+
         weekday_pick = (WeekdaysPicker) findViewById(R.id.weekdays);
         timepick = (EditText) findViewById(R.id.timepicker);
+        start_text = (TextView) findViewById(R.id.start_text);
 
+
+        weekday_pick.setSelectedDays(days_selected);
         weekday_pick.setOnWeekdaysChangeListener(new OnWeekdaysChangeListener() {
             @Override
             public void onChange(View view, int i, List<Integer> list) {
@@ -69,10 +78,6 @@ public class AddActivity extends AppCompatActivity {
                         day_specified = false;
                     } else {
                         day_specified = true;
-                        Days = new ArrayList<>();
-                        for (int j = 0; j < list.size(); j++) {
-                            Days.add(Weekdays[list.get(j)]);
-                        }
                     }
                 else
                     day_specified = true;
@@ -109,9 +114,12 @@ public class AddActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         AddActivity.this.hour = selectedHour;
                         AddActivity.this.min = selectedMinute;
-                        timepick.setText(selectedHour + ":" + selectedMinute);
+                        if (selectedHour > 12)
+                            timepick.setText(selectedHour - 12 + ":" + selectedMinute + " pm");
+                        else
+                            timepick.setText(selectedHour + ":" + selectedMinute + " am");
                     }
-                }, hour, minute, true);
+                }, hour, minute, false);
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
 
@@ -147,6 +155,20 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
+        if (contract.getOrderType().equals("OneTime"))
+            onetime = true;
+        else
+            onetime = false;
+
+        if (onetime) {
+            schedule_spinner.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timepick.getLayoutParams();
+            params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            params.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
+            start_text.setText("Specify time and date when you want your order to be delivered");
+            timepick.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            timepick.setLayoutParams(params);
+        }
 
     }
 
@@ -168,7 +190,8 @@ public class AddActivity extends AppCompatActivity {
         dateTimeInUtc.toDateTime(DateTimeZone.UTC);
         Long epochtime = (dateTimeInUtc.getMillis());
         contract.setTimeStamp(epochtime);
-        contract.setScheduleType(schedule_spinner.getText().toString().trim());
+        if (!onetime)
+            contract.setScheduleType(schedule_spinner.getText().toString().trim());
 
         if (custom_pick)
             contract.setDays(weekday_pick.getSelectedDaysText());
@@ -177,6 +200,8 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private boolean isValid() {
+        if (onetime && timepick.getText().toString().trim().length() > 0)
+            return true;
         if (timepick.getText().toString().trim().length() > 0 && schedule_done && day_specified)
             return true;
         return false;

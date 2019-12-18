@@ -45,7 +45,6 @@ public class NewOrderActivity extends AppCompatActivity {
         contract.setYogurtQuantity(0);
         contract.setAddress("");
         contract.setOrderType("");
-        contract.setScheduleType("");
         contract.setTimeStamp(0l);
 
         quantity_yogurt.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
