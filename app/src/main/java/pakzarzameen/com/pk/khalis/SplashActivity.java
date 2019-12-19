@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
                             // using the following line to edit/commit prefs
                             startLoginActivity();
                         } else {
-                            if (!prefs.getBoolean("TypeSpecified", false))
+                            if (!prefs.getBoolean("ProfileSpecified", false))
                                 inDatabase = false;
                             else
                                 inDatabase = true;
@@ -66,7 +66,7 @@ public class SplashActivity extends AppCompatActivity {
         if (inDatabase)
             nextActivity = new Intent(SplashActivity.this, MainActivity.class);
         else
-            nextActivity = new Intent(SplashActivity.this, LoginActivity.class);
+            nextActivity = new Intent(SplashActivity.this, MainActivity.class);
 
         nextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(nextActivity);

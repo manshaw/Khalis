@@ -1,9 +1,13 @@
 package pakzarzameen.com.pk.khalis;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +16,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.dpro.widgets.OnWeekdaysChangeListener;
 import com.dpro.widgets.WeekdaysPicker;
@@ -45,6 +50,7 @@ public class AddActivity extends AppCompatActivity {
     private int day1;
     public int hour, min;
     public Long time;
+    public String address_value;
     public boolean onetime;
     public boolean schedule_done = false;
     public boolean custom_pick = false;
@@ -52,8 +58,11 @@ public class AddActivity extends AppCompatActivity {
     List<String> Days = new ArrayList<>();
     DatabaseReference mDatabase;
     String user;
+    Boolean address_given = false;
     List<Integer> days_selected = new ArrayList<>();
-    public static final String[] Weekdays = {"None", "Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"};
+    SharedPreferences prefs = null;
+    private static final String PACAKGE_NAME = "pk.com.pakzarzameen.khalis";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +72,7 @@ public class AddActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("/Test/User/" + user);
         Calendar currCalendar = Calendar.getInstance();
         contract = (FbContract) getIntent().getSerializableExtra("Firebase");
+        prefs = getSharedPreferences(PACAKGE_NAME, MODE_PRIVATE);
 
         weekday_pick = (WeekdaysPicker) findViewById(R.id.weekdays);
         timepick = (EditText) findViewById(R.id.timepicker);
@@ -173,14 +183,50 @@ public class AddActivity extends AppCompatActivity {
     }
 
 
-    public void startNextActivity(View view) {
+    public void btn_done(View view) {
         if (isValid()) {
+            openAddressDialog();
+        }
+    }
+
+    private void startNextActivity() {
+
+        if (address_given) {
             makeContract();
             Intent nextActivity = new Intent(this, MainActivity.class);
             nextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(nextActivity);
             finish();
         }
+
+    }
+
+    private void openAddressDialog() {
+        final EditText text = new EditText(AddActivity.this);
+        if (prefs.contains("Address")) {
+            text.setText(prefs.getString("Address", "Address"));
+        } else {
+            text.setHint("Address");
+        }
+        text.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+        text.setFocusable(false);
+        text.setFocusableInTouchMode(true);
+        AlertDialog alertDialog1 = new AlertDialog.Builder(AddActivity.this)
+                .setIcon(R.drawable.ic_add_location_black_24dp)
+                .setTitle("Address")
+                .setView(text)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (text.getText().toString().trim().length() > 0) {
+                            address_given = true;
+                            contract.setAddress(text.getText().toString().trim());
+                            startNextActivity();
+                        } else
+                            Toast.makeText(AddActivity.this, "Kindly specify address for delivery", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .show();
     }
 
     private void makeContract() {
