@@ -3,7 +3,9 @@ package pakzarzameen.com.pk.khalis;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shawnlin.numberpicker.NumberPicker;
@@ -11,17 +13,20 @@ import com.shawnlin.numberpicker.NumberPicker;
 import net.igenius.customcheckbox.CustomCheckBox;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
 
 public class NewOrderActivity extends AppCompatActivity {
-    CustomCheckBox milk, yogurt, order_one, schedule_order;
-    NumberPicker quantity_milk, quantity_yogurt;
-    Boolean milk_highligh, yogurt_highlight;
-    TextView milk_text, yogurt_text;
-    FbContract contract = new FbContract();
-    Boolean one_time;
+    private CustomCheckBox milk, yogurt, order_one, schedule_order;
+    private NumberPicker quantity_milk, quantity_yogurt;
+    private Boolean milk_highligh = false, yogurt_highlight = false;
+    private TextView milk_text, yogurt_text;
+    private FbContract contract = new FbContract();
+    private Boolean one_time;
     double quant_m, quant_y;
-    EditText address;
+    private AlphaAnimation alphaDown;
+    private AlphaAnimation alphaUp;
+    private LinearLayout bodyContainer, llquantityMilk, llquantityYogurt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +40,21 @@ public class NewOrderActivity extends AppCompatActivity {
         schedule_order = (CustomCheckBox) findViewById(R.id.schedule);
         milk_text = (TextView) findViewById(R.id.milk_text);
         yogurt_text = (TextView) findViewById(R.id.yogurt_text);
-        address = (EditText) findViewById(R.id.addresstext);
+        bodyContainer = (LinearLayout) findViewById(R.id.body_container);
+        llquantityMilk = (LinearLayout) findViewById(R.id.llquantity_milk);
+        llquantityYogurt = (LinearLayout) findViewById(R.id.llquantity_yogurt);
         order_one.setChecked(false, true);
         schedule_order.setChecked(false, true);
         yogurt.setChecked(false, true);
         milk.setChecked(false, true);
+
+        // This is for the animation part
+        alphaDown = new AlphaAnimation(1.0f, 0.0f);
+        alphaUp = new AlphaAnimation(0.0f, 1.0f);
+        alphaDown.setDuration(500);
+        alphaUp.setDuration(1000);
+        alphaDown.setFillAfter(true);
+        alphaUp.setFillAfter(true);
 
         contract.setMilkQuantity(0);
         contract.setYogurtQuantity(0);
@@ -67,10 +82,21 @@ public class NewOrderActivity extends AppCompatActivity {
                     milk_highligh = true;
                     milk_text.setHintTextColor(getResources().getColor(R.color.colorAccent));
                     quantity_milk.setDividerColor(getResources().getColor(R.color.colorAccent));
+                    bodyContainer.setVisibility(View.VISIBLE);
+                    bodyContainer.startAnimation(alphaUp);
+                    llquantityMilk.setVisibility(View.VISIBLE);
+                    llquantityMilk.startAnimation(alphaUp);
                 } else {
                     milk_highligh = false;
                     milk_text.setHintTextColor(getResources().getColor(R.color.label_text));
                     quantity_milk.setDividerColor(getResources().getColor(R.color.label_text));
+                    if (!yogurt_highlight) {
+                        llquantityYogurt.setVisibility(View.GONE);
+                        bodyContainer.startAnimation(alphaDown);
+                        bodyContainer.setVisibility(View.GONE);
+                    }
+                    llquantityMilk.startAnimation(alphaDown);
+                    llquantityMilk.setVisibility(View.GONE);
                 }
             }
         });
@@ -81,10 +107,21 @@ public class NewOrderActivity extends AppCompatActivity {
                     yogurt_highlight = true;
                     yogurt_text.setHintTextColor(getResources().getColor(R.color.colorAccent));
                     quantity_yogurt.setDividerColor(getResources().getColor(R.color.colorAccent));
+                    bodyContainer.setVisibility(View.VISIBLE);
+                    bodyContainer.startAnimation(alphaUp);
+                    llquantityYogurt.setVisibility(View.VISIBLE);
+                    llquantityYogurt.startAnimation(alphaUp);
                 } else {
                     yogurt_highlight = false;
                     yogurt_text.setHintTextColor(getResources().getColor(R.color.label_text));
                     quantity_yogurt.setDividerColor(getResources().getColor(R.color.label_text));
+                    if (!milk_highligh) {
+                        llquantityMilk.setVisibility(View.GONE);
+                        bodyContainer.startAnimation(alphaDown);
+                        bodyContainer.setVisibility(View.GONE);
+                    }
+                    llquantityYogurt.startAnimation(alphaDown);
+                    llquantityYogurt.setVisibility(View.GONE);
                 }
             }
         });
@@ -112,7 +149,7 @@ public class NewOrderActivity extends AppCompatActivity {
     }
 
     public boolean isValid() {
-        if ((milk.isChecked() || yogurt.isChecked()) && (order_one.isChecked() || schedule_order.isChecked()) && address.getText().toString().trim().length() > 0)
+        if ((milk.isChecked() || yogurt.isChecked()) && (order_one.isChecked() || schedule_order.isChecked()))
             return true;
         return false;
     }
@@ -145,7 +182,7 @@ public class NewOrderActivity extends AppCompatActivity {
             contract.setOrderType("OneTime");
         else
             contract.setOrderType("ScheduleOrder");
-        contract.setAddress(address.getText().toString().trim());
+        contract.setAddress("test address");
     }
 
 

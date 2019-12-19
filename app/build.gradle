@@ -45,5 +45,6 @@ dependencies {
     implementation 'com.shawnlin:number-picker:2.4.8'
     implementation 'com.weiwangcn.betterspinner:library:1.1.0'
     implementation 'com.github.DavidProdinger:weekdays-selector:1.1.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -2,8 +2,11 @@ package pakzarzameen.com.pk.khalis;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.AlphaAnimation;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,13 +20,18 @@ public class SplashActivity extends AppCompatActivity {
     boolean inDatabase = false;
     private static final String PACAKGE_NAME = "pk.com.pakzarzameen.khalis";
     SharedPreferences prefs = null;
+    private AlphaAnimation alphaUp;
+    private ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         prefs = getSharedPreferences(PACAKGE_NAME, MODE_PRIVATE);
-
+        logo = (ImageView) findViewById(R.id.logo);
+        alphaUp = new AlphaAnimation(0.0f, 1.0f);
+        alphaUp.setDuration(2500);
+        logo.startAnimation(alphaUp);
         new Handler().postDelayed(
                 new Runnable() {
                     @Override
@@ -41,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
                         }
 
                     }
-                }, 2000);
+                }, 4000);
     }
 
     private void startLoginActivity() {
