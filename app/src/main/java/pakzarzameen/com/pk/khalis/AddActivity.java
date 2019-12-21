@@ -69,7 +69,7 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_add);
         user = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-        mDatabase = FirebaseDatabase.getInstance().getReference("/Test/User/" + user);
+        mDatabase = FirebaseDatabase.getInstance().getReference("/Test/User/" + user + "/Current Orders");
         Calendar currCalendar = Calendar.getInstance();
         contract = (FbContract) getIntent().getSerializableExtra("Firebase");
         prefs = getSharedPreferences(PACAKGE_NAME, MODE_PRIVATE);
@@ -98,6 +98,7 @@ public class AddActivity extends AppCompatActivity {
         year1 = currCalendar.get(Calendar.YEAR);
         month1 = currCalendar.get(Calendar.MONTH);
         day1 = currCalendar.get(Calendar.DAY_OF_MONTH);
+        //datePicker.setMinDate(System.currentTimeMillis()-1000);
         datePicker.init(year1, month1, day1, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
@@ -165,7 +166,7 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
-        if (contract.getOrderType().equals("OneTime"))
+        if (contract.getOrderType().equals("One-Time"))
             onetime = true;
         else
             onetime = false;

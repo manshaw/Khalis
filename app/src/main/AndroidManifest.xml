@@ -33,6 +33,9 @@
             android:name=".NewOrderActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".AddActivity" />
+        <activity android:name=".CurrentOrderActivity" />
+        <activity android:name=".PreviousOrderActivity" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

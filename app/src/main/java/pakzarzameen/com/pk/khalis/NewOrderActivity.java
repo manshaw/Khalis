@@ -174,15 +174,14 @@ public class NewOrderActivity extends AppCompatActivity {
         }
         if (yogurt.isChecked()) {
             if (quant_y > 1)
-                contract.setYogurtQuantity(quant_m);
+                contract.setYogurtQuantity(quant_y);
             else
                 contract.setYogurtQuantity(1);
         }
         if (one_time)
-            contract.setOrderType("OneTime");
+            contract.setOrderType("One-Time");
         else
-            contract.setOrderType("ScheduleOrder");
-        contract.setAddress("test address");
+            contract.setOrderType("Schedule");
     }
 
 
