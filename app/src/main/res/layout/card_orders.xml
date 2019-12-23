@@ -94,7 +94,7 @@
                     android:gravity="center"
                     android:text="7Kg"
                     android:textColor="#0099cc"
-                    android:textSize="24dp"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -121,7 +121,7 @@
                     android:gravity="center"
                     android:text="Wed, 10:30PM"
                     android:textColor="@color/gray"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -147,9 +147,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
                     android:gravity="center"
-                    android:text="4Kg"
+                    android:text="4.0Kg"
                     android:textColor="#0099cc"
-                    android:textSize="24dp"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -176,7 +176,7 @@
                 android:gravity="center"
                 android:text="Custom"
                 android:textColor="@color/colorWhite"
-                android:textSize="26dp"
+                android:textSize="22dp"
                 android:textStyle="bold" />
 
             <TextView

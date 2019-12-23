@@ -66,7 +66,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
                 mProgressbar.setVisibility(View.GONE);
                 i++;
                 checkForPrevious();
-                CurrentAdapter rv = new CurrentAdapter(session_List,key_list);
+                CurrentAdapter rv = new CurrentAdapter(session_List, key_list);
                 recList.setAdapter(rv);
             }
 
