@@ -28,9 +28,12 @@ import com.weiwangcn.betterspinner.library.BetterSpinner;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import androidx.appcompat.app.AppCompatActivity;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
@@ -98,7 +101,7 @@ public class AddActivity extends AppCompatActivity {
         year1 = currCalendar.get(Calendar.YEAR);
         month1 = currCalendar.get(Calendar.MONTH);
         day1 = currCalendar.get(Calendar.DAY_OF_MONTH);
-        //datePicker.setMinDate(System.currentTimeMillis()-1000);
+        datePicker.setMinDate(System.currentTimeMillis() - 1000);
         datePicker.init(year1, month1, day1, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
@@ -120,15 +123,19 @@ public class AddActivity extends AppCompatActivity {
                 int minute = mcurrentTime.get(Calendar.MINUTE);
 
                 TimePickerDialog mTimePicker;
+
                 mTimePicker = new TimePickerDialog(AddActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         AddActivity.this.hour = selectedHour;
                         AddActivity.this.min = selectedMinute;
+
                         if (selectedHour > 12)
                             timepick.setText(selectedHour - 12 + ":" + selectedMinute + " pm");
-                        else
+                        else if(selectedHour<12)
                             timepick.setText(selectedHour + ":" + selectedMinute + " am");
+                        else if(selectedHour==12)
+                            timepick.setText(selectedHour + ":" + selectedMinute + " pm");
                     }
                 }, hour, minute, false);
                 mTimePicker.setTitle("Select Time");
@@ -231,12 +238,14 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void makeContract() {
-
         String epoch = year1 + "-" + (month1 + 1) + "-" + day1 + "T" + hour + ":" + min + ":" + "00+0000";
-        DateTime dateTimeInUtc = new DateTime(epoch);
-        dateTimeInUtc.toDateTime(DateTimeZone.UTC);
+        DateTime dateTimeInUtc = new DateTime(epoch, DateTimeZone.UTC);
         Long epochtime = (dateTimeInUtc.getMillis());
-        contract.setTimeStamp(epochtime);
+        Date localtime = new Date(epochtime);
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date gmtTime = new Date(sdf.format(localtime));
+        contract.setTimeStamp(gmtTime.getTime());
         if (!onetime)
             contract.setScheduleType(schedule_spinner.getText().toString().trim());
 
@@ -249,8 +258,19 @@ public class AddActivity extends AppCompatActivity {
     private boolean isValid() {
         if (onetime && timepick.getText().toString().trim().length() > 0)
             return true;
-        if (timepick.getText().toString().trim().length() > 0 && schedule_done && day_specified)
-            return true;
+        if (timepick.getText().toString().trim().length() > 0 && schedule_done && day_specified) {
+            if (custom_pick)
+                if (weekday_pick.getSelectedDays().size() > 0)
+                    return true;
+        }
+        if (timepick.getText().toString().trim().length() == 0)
+            timepick.setError("You need to enter time");
+
+        if (!schedule_done)
+            schedule_spinner.setError("Please specify schedule");
+
+
+
         return false;
     }
 }

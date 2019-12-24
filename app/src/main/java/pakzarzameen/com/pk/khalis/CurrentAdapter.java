@@ -50,7 +50,7 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMM,yyyy \n  h:mm aaa");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        //sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String normalTime = sdf.format(new java.util.Date(ci.getTimeStamp()));
         contactViewHolder.order_type.setText(ci.getOrderType());
         contactViewHolder.cross.setOnClickListener(new View.OnClickListener() {

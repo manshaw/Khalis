@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -81,11 +82,12 @@ public class CurrentOrderActivity extends AppCompatActivity {
 
     private void checkForPrevious(){
 
-        Long currentdate = Calendar.getInstance().getTimeInMillis();
+
+        Long currentdate = System.currentTimeMillis();
 
         for(int i=0;i<session_List.size();i++)
         {
-            if(session_List.get(i).getTimeStamp()<currentdate)
+            if(session_List.get(i).getTimeStamp()<currentdate  && session_List.get(i).getOrderType().equals("One-Time"))
             {
                 pushToPrevious(session_List.get(i));
                 DatabaseReference mDatabaseReference;
