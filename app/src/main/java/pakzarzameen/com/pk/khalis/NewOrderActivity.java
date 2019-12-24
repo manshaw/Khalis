@@ -4,15 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.shawnlin.numberpicker.NumberPicker;
 
 import net.igenius.customcheckbox.CustomCheckBox;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
 
@@ -22,7 +21,7 @@ public class NewOrderActivity extends AppCompatActivity {
     private Boolean milk_highligh = false, yogurt_highlight = false;
     private TextView milk_text, yogurt_text;
     private FbContract contract = new FbContract();
-    private Boolean one_time;
+    private Boolean one_time = false, schedule_time = false;
     double quant_m, quant_y;
     private AlphaAnimation alphaDown;
     private AlphaAnimation alphaUp;
@@ -130,6 +129,7 @@ public class NewOrderActivity extends AppCompatActivity {
             public void onCheckedChanged(CustomCheckBox checkBox, boolean isChecked) {
                 if (order_one.isChecked() == true && schedule_order.isChecked() == true) {
                     schedule_order.setChecked(false, true);
+                    schedule_time = false;
                 }
                 if (order_one.isChecked())
                     one_time = true;
@@ -143,7 +143,7 @@ public class NewOrderActivity extends AppCompatActivity {
                     one_time = false;
                 }
                 if (schedule_order.isChecked())
-                    one_time = false;
+                    schedule_time = true;
             }
         });
     }
@@ -180,7 +180,7 @@ public class NewOrderActivity extends AppCompatActivity {
         }
         if (one_time)
             contract.setOrderType("One-Time");
-        else
+        if (schedule_time)
             contract.setOrderType("Schedule");
     }
 

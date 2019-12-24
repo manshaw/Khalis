@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.dpro.widgets.OnWeekdaysChangeListener;
 import com.dpro.widgets.WeekdaysPicker;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +37,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import androidx.appcompat.app.AppCompatActivity;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
 
 public class AddActivity extends AppCompatActivity {
@@ -132,9 +133,9 @@ public class AddActivity extends AppCompatActivity {
 
                         if (selectedHour > 12)
                             timepick.setText(selectedHour - 12 + ":" + selectedMinute + " pm");
-                        else if(selectedHour<12)
+                        else if (selectedHour < 12)
                             timepick.setText(selectedHour + ":" + selectedMinute + " am");
-                        else if(selectedHour==12)
+                        else if (selectedHour == 12)
                             timepick.setText(selectedHour + ":" + selectedMinute + " pm");
                     }
                 }, hour, minute, false);
@@ -175,7 +176,7 @@ public class AddActivity extends AppCompatActivity {
 
         if (contract.getOrderType().equals("One-Time"))
             onetime = true;
-        else
+        if (contract.getOrderType().equals("Schedule"))
             onetime = false;
 
         if (onetime) {
@@ -263,15 +264,16 @@ public class AddActivity extends AppCompatActivity {
                 if (weekday_pick.getSelectedDays().size() > 0)
                     return true;
         }
-        if (timepick.getText().toString().trim().length() == 0)
+        if (timepick.getText().toString().trim().length() == 0) {
             timepick.setError("You need to enter time");
+            return false;
+        }
 
-        if (!schedule_done)
+        if (!schedule_done) {
             schedule_spinner.setError("Please specify schedule");
-
-
-
-        return false;
+            return false;
+        }
+        return true;
     }
 }
 
