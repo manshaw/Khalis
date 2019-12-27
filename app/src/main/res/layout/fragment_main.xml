@@ -53,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Previous"
+                        android:text="Paid"
                         android:textColor="@color/gray"
                         android:textSize="32dp"
                         android:textStyle="bold" />

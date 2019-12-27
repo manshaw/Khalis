@@ -11,6 +11,9 @@ public class FbContract implements Serializable {
     private String ScheduleType;
     private String Address;
     private List<String> Days;
+    private String status;
+    private String Payment;
+    private String Name;
 
     public FbContract() {
 
@@ -70,5 +73,29 @@ public class FbContract implements Serializable {
 
     public void setDays(List<String> days) {
         Days = days;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPayment() {
+        return Payment;
+    }
+
+    public void setPayment(String payment) {
+        Payment = payment;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
     }
 }

@@ -83,11 +83,10 @@ public class CurrentOrderActivity extends AppCompatActivity {
     private void checkForPrevious(){
 
 
-        Long currentdate = System.currentTimeMillis();
 
         for(int i=0;i<session_List.size();i++)
         {
-            if(session_List.get(i).getTimeStamp()<currentdate  && session_List.get(i).getOrderType().equals("One-Time"))
+            if(session_List.get(i).getPayment().equals("Paid"))
             {
                 pushToPrevious(session_List.get(i));
                 DatabaseReference mDatabaseReference;

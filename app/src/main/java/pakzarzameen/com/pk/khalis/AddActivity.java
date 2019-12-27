@@ -77,11 +77,9 @@ public class AddActivity extends AppCompatActivity {
         Calendar currCalendar = Calendar.getInstance();
         contract = (FbContract) getIntent().getSerializableExtra("Firebase");
         prefs = getSharedPreferences(PACAKGE_NAME, MODE_PRIVATE);
-
         weekday_pick = (WeekdaysPicker) findViewById(R.id.weekdays);
         timepick = (EditText) findViewById(R.id.timepicker);
         start_text = (TextView) findViewById(R.id.start_text);
-
 
         weekday_pick.setSelectedDays(days_selected);
         weekday_pick.setOnWeekdaysChangeListener(new OnWeekdaysChangeListener() {
@@ -125,7 +123,7 @@ public class AddActivity extends AppCompatActivity {
 
                 TimePickerDialog mTimePicker;
 
-                mTimePicker = new TimePickerDialog(AddActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                mTimePicker = new TimePickerDialog(AddActivity.this,android.R.style.Theme_Holo_Light_Dialog_NoActionBar, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         AddActivity.this.hour = selectedHour;
@@ -133,6 +131,8 @@ public class AddActivity extends AppCompatActivity {
 
                         if (selectedHour > 12)
                             timepick.setText(selectedHour - 12 + ":" + selectedMinute + " pm");
+                        else if(selectedHour == 0)
+                            timepick.setText(12 + ":" + selectedMinute + " am");
                         else if (selectedHour < 12)
                             timepick.setText(selectedHour + ":" + selectedMinute + " am");
                         else if (selectedHour == 12)
@@ -140,6 +140,7 @@ public class AddActivity extends AppCompatActivity {
                     }
                 }, hour, minute, false);
                 mTimePicker.setTitle("Select Time");
+                mTimePicker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 mTimePicker.show();
 
             }
@@ -247,6 +248,9 @@ public class AddActivity extends AppCompatActivity {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date gmtTime = new Date(sdf.format(localtime));
         contract.setTimeStamp(gmtTime.getTime());
+        contract.setStatus("Resumed");
+        contract.setName(prefs.getString("Name", "John"));
+        contract.setPayment("UnPaid");
         if (!onetime)
             contract.setScheduleType(schedule_spinner.getText().toString().trim());
 
