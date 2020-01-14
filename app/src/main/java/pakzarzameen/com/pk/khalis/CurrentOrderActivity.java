@@ -86,16 +86,16 @@ public class CurrentOrderActivity extends AppCompatActivity {
 
         for(int i=0;i<session_List.size();i++)
         {
-            if(session_List.get(i).getPayment().equals("Paid"))
-            {
-                pushToPrevious(session_List.get(i));
-                DatabaseReference mDatabaseReference;
-                String currentuser = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-                mDatabaseReference = FirebaseDatabase.getInstance().getReference("/Test/User/"+currentuser+"/Current Orders").child(key_list.get(i));
-                mDatabaseReference.removeValue();
-                session_List.remove(i);
+            if(session_List.get(i).getOrderType().equals("One-Time")) {
+                if (session_List.get(i).getPayment().equals("Paid")) {
+                    pushToPrevious(session_List.get(i));
+                    DatabaseReference mDatabaseReference;
+                    String currentuser = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+                    mDatabaseReference = FirebaseDatabase.getInstance().getReference("/Test/User/" + currentuser + "/Current Orders").child(key_list.get(i));
+                    mDatabaseReference.removeValue();
+                    session_List.remove(i);
+                }
             }
-
         }
     }
 
