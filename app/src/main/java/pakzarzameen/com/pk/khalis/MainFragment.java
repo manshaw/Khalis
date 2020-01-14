@@ -9,6 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,12 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import pakzarzameen.com.pk.khalis.Utils.AppLanguageManager;
 
 public class MainFragment extends Fragment {
-    LinearLayout curr,prev,new_order;
+    LinearLayout curr, prev, new_order;
     ProgressBar mProgressbar;
     TextView prev_no, curr_no;
     long child_count_prev, child_count_curr;
@@ -31,7 +33,13 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main,container,false);
+        AppLanguageManager appLanguageManager = new AppLanguageManager(getContext());
+        View view;
+        if (appLanguageManager.getAppLanguage().equals("ar")) {
+            view = inflater.inflate(R.layout.fragment_main_ar, container, false);
+        } else {
+            view = inflater.inflate(R.layout.fragment_main, container, false);
+        }
         curr = (LinearLayout) view.findViewById(R.id.llCurrent);
         prev = (LinearLayout) view.findViewById(R.id.llPrevious);
         new_order = (LinearLayout) view.findViewById(R.id.llNew);

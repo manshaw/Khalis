@@ -11,7 +11,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,8 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import pakzarzameen.com.pk.khalis.Utils.AppLanguageManager;
 
 public class VerifyActivity extends AppCompatActivity {
 
@@ -52,6 +55,7 @@ public class VerifyActivity extends AppCompatActivity {
     String user;
     private static final String PACAKGE_NAME = "pk.com.pakzarzameen.khalis";
     SharedPreferences prefs = null;
+    private TextView heading_verify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +72,12 @@ public class VerifyActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-
-                //startNextActivity();
-                Toast.makeText(VerifyActivity.this, "Verification Successful", Toast.LENGTH_LONG).show();
+                if (new AppLanguageManager(VerifyActivity.this).getAppLanguage().equals("ar")) {
+                    Toast.makeText(VerifyActivity.this, "آپ کا رجسٹریشن کامیاب ہے", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(VerifyActivity.this, "Verification Successful", Toast.LENGTH_LONG).show();
+                }
                 signInWithPhoneAuthCredential(credential);
-
             }
 
             @Override
@@ -116,6 +121,14 @@ public class VerifyActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
+        heading_verify = (TextView) findViewById(R.id.textView2);
+        if (new AppLanguageManager(VerifyActivity.this).getAppLanguage().equals("ar")) {
+            heading_verify.setText("ہم نے آپ کو ایک 6 عددی کوڈ بھیجا ہے");
+            btnResend.setText("دوبارہ بھیجین");
+        } else {
+            btnResend.setText("Resend");
+            heading_verify.setText("We sent you a 6-digit code");
+        }
         btnContinue = findViewById(R.id.button2);
         btnResend.setEnabled(false);
         btnResend.postDelayed(new Runnable() {
@@ -380,6 +393,7 @@ public class VerifyActivity extends AppCompatActivity {
                     }
                 });
     }
+
     public void resend_msg(View view) {
         if (mResendToken != null)
             resendVerificationCode(strPhoneNumber, mResendToken);

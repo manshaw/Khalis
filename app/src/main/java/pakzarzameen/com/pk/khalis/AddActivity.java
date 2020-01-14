@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import pakzarzameen.com.pk.khalis.Utils.AppLanguageManager;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
 
 public class AddActivity extends AppCompatActivity {
@@ -44,6 +45,9 @@ public class AddActivity extends AppCompatActivity {
     WeekdaysPicker weekday_pick;
     private static final String[] TIMES = new String[]{
             "Daily", "Weekly", "Monthly", "Custom Days"
+    };
+    private static final String[] TIMES_AR = new String[]{
+            "روزانہ", "ہفتہ وار", "ماہانہ", "حسب ضرورت دن"
     };
     BetterSpinner schedule_spinner;
     EditText timepick;
@@ -79,6 +83,18 @@ public class AddActivity extends AppCompatActivity {
         prefs = getSharedPreferences(PACAKGE_NAME, MODE_PRIVATE);
         weekday_pick = (WeekdaysPicker) findViewById(R.id.weekdays);
         timepick = (EditText) findViewById(R.id.timepicker);
+        schedule_spinner = (BetterSpinner) findViewById(R.id.spinner2);
+        if (new AppLanguageManager(AddActivity.this).getAppLanguage().equals("ar")) {
+            timepick.setText("وقت مقرر کریں");
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, TIMES_AR);
+            schedule_spinner.setHint("شیڈول کریں");
+            schedule_spinner.setAdapter(adapter);
+        } else {
+            timepick.setText("Specify Time");
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, TIMES);
+            schedule_spinner.setHint("Schedule Days");
+            schedule_spinner.setAdapter(adapter);
+        }
         start_text = (TextView) findViewById(R.id.start_text);
 
         weekday_pick.setSelectedDays(days_selected);
@@ -123,7 +139,7 @@ public class AddActivity extends AppCompatActivity {
 
                 TimePickerDialog mTimePicker;
 
-                mTimePicker = new TimePickerDialog(AddActivity.this,android.R.style.Theme_Holo_Light_Dialog_NoActionBar, new TimePickerDialog.OnTimeSetListener() {
+                mTimePicker = new TimePickerDialog(AddActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         AddActivity.this.hour = selectedHour;
@@ -131,7 +147,7 @@ public class AddActivity extends AppCompatActivity {
 
                         if (selectedHour > 12)
                             timepick.setText(selectedHour - 12 + ":" + selectedMinute + " pm");
-                        else if(selectedHour == 0)
+                        else if (selectedHour == 0)
                             timepick.setText(12 + ":" + selectedMinute + " am");
                         else if (selectedHour < 12)
                             timepick.setText(selectedHour + ":" + selectedMinute + " am");
@@ -146,10 +162,10 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, TIMES);
-        schedule_spinner = (BetterSpinner) findViewById(R.id.spinner2);
-        schedule_spinner.setAdapter(adapter);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_dropdown_item_1line, TIMES);
+//        schedule_spinner = (BetterSpinner) findViewById(R.id.spinner2);
+//        schedule_spinner.setAdapter(adapter);
         schedule_spinner.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -158,7 +174,7 @@ public class AddActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (schedule_spinner.getText().toString().trim().equals("Custom Days")) {
+                if (schedule_spinner.getText().toString().trim().equals("Custom Days") || schedule_spinner.getText().toString().trim().equals("حسب ضرورت دن")) {
                     weekday_pick.setVisibility(View.VISIBLE);
                     custom_pick = true;
                 } else {
@@ -185,9 +201,19 @@ public class AddActivity extends AppCompatActivity {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timepick.getLayoutParams();
             params.addRule(RelativeLayout.CENTER_HORIZONTAL);
             params.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
-            start_text.setText("Specify time and date when you want your order to be delivered");
+            if (new AppLanguageManager(AddActivity.this).getAppLanguage().equals("ar")) {
+                start_text.setText("وقت اور تاریخ بتائیں جب آپ چاہتے ہیں کہ آپ کا آرڈر پہنچ جائے");
+            } else {
+                start_text.setText("Specify time and date when you want your order to be delivered");
+            }
             timepick.setGravity(View.TEXT_ALIGNMENT_CENTER);
             timepick.setLayoutParams(params);
+        } else {
+            if (new AppLanguageManager(AddActivity.this).getAppLanguage().equals("ar")) {
+                start_text.setText("آرڈر کے آغاز کی تاریخ کا انتخاب کریں");
+            } else {
+                start_text.setText("Selet Start From Date");
+            }
         }
 
     }

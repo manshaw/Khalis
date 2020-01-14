@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,8 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
+import pakzarzameen.com.pk.khalis.Utils.AppLanguageManager;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
 
 public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactViewHolder> {
@@ -44,6 +46,7 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
 
     @Override
     public void onBindViewHolder(final ContactViewHolder contactViewHolder, int i) {
+        AppLanguageManager appLanguageManager = new AppLanguageManager(contactViewHolder.card.getContext());
         FbContract ci = DataList.get(i);
         final String key = key_list.get(i);
         ColorMatrix matrix = new ColorMatrix();
@@ -54,9 +57,17 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMM,yyyy \n  h:mm aaa");
         //sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String normalTime = sdf.format(new java.util.Date(ci.getTimeStamp()));
-        if(disabledelete(ci.getTimeStamp()))
+        if (disabledelete(ci.getTimeStamp()))
             contactViewHolder.cross.setVisibility(View.GONE);
-        contactViewHolder.order_type.setText(ci.getOrderType());
+        if (appLanguageManager.getAppLanguage().equals("ar")) {
+            if (ci.getOrderType().equals("One-Time")) {
+                contactViewHolder.order_type.setText("ایک وقت کا آرڈر");
+            } else {
+                contactViewHolder.order_type.setText("شیڈول آرڈر");
+            }
+        } else {
+            contactViewHolder.order_type.setText(ci.getOrderType());
+        }
         contactViewHolder.cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -67,16 +78,16 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                    deleteItem(key);
-                                    Intent intent = new Intent(view.getContext(),CurrentOrderActivity.class);
-                                    view.getContext().startActivity(intent);
-                                    ((Activity)view.getContext()).finish();
+                                deleteItem(key);
+                                Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
+                                view.getContext().startActivity(intent);
+                                ((Activity) view.getContext()).finish();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.cancel();
+                                dialogInterface.cancel();
                             }
                         })
                         .show();
@@ -145,28 +156,32 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
         }
 
 
-
         if (ci.getOrderType().equals("One-Time")) {
             contactViewHolder.schedule_type.setVisibility(View.GONE);
             contactViewHolder.customdays.setVisibility(View.GONE);
         } else {
             contactViewHolder.schedule_type.setText(ci.getScheduleType());
-            if (ci.getScheduleType().equals("Custom Days")) {
+            if (ci.getScheduleType().equals("Custom Days") || ci.getScheduleType().equals("حسب ضرورت دن")) {
                 contactViewHolder.customdays.setVisibility(View.VISIBLE);
                 contactViewHolder.customdays.setText(TextUtils.join(",", ci.getDays()));
             } else
                 contactViewHolder.customdays.setVisibility(View.GONE);
         }
-        contactViewHolder.milk.setText(ci.getMilkQuantity() + "Kg");
-        contactViewHolder.yogurt.setText(ci.getYogurtQuantity() + "Kg");
+        if (appLanguageManager.getAppLanguage().equals("ar")) {
+            contactViewHolder.milk.setText(ci.getMilkQuantity() + "کلو");
+            contactViewHolder.yogurt.setText(ci.getYogurtQuantity() + "کلو");
+        } else {
+            contactViewHolder.milk.setText(ci.getMilkQuantity() + "Kg");
+            contactViewHolder.yogurt.setText(ci.getYogurtQuantity() + "Kg");
+        }
         contactViewHolder.time.setText(normalTime);
     }
 
 
-    public void deleteItem(String key){
+    public void deleteItem(String key) {
         DatabaseReference mDatabaseReference;
         String currentuser = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("/Test/User/"+currentuser+"/Current Orders").child(key);
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("/Test/User/" + currentuser + "/Current Orders").child(key);
         mDatabaseReference.removeValue();
 
     }
@@ -182,18 +197,22 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
         Date now = Calendar.getInstance().getTime();
         long difference;
         if (timestamp > now.getTime()) {
-            difference = (timestamp - now.getTime())/ 1000l/ 60l;
-            if(difference<40)
+            difference = (timestamp - now.getTime()) / 1000l / 60l;
+            if (difference < 40)
                 return true;
         }
         return false;
     }
+
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.
-                from(viewGroup.getContext()).
-                inflate(R.layout.card_orders, viewGroup, false);
-
+        AppLanguageManager appLanguageManager = new AppLanguageManager(viewGroup.getContext());
+        View itemView;
+        if (appLanguageManager.getAppLanguage().equals("ar")) {
+            itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_orders_ar, viewGroup, false);
+        } else {
+            itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_orders, viewGroup, false);
+        }
         return new ContactViewHolder(itemView);
     }
 

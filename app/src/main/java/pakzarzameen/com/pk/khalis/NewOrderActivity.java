@@ -13,6 +13,7 @@ import com.shawnlin.numberpicker.NumberPicker;
 
 import net.igenius.customcheckbox.CustomCheckBox;
 
+import pakzarzameen.com.pk.khalis.Utils.AppLanguageManager;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
 
 public class NewOrderActivity extends AppCompatActivity {
@@ -30,7 +31,11 @@ public class NewOrderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__order_new);
+        if (new AppLanguageManager(NewOrderActivity.this).getAppLanguage().equals("ar")) {
+            setContentView(R.layout.activity_order_new_ar);
+        } else {
+            setContentView(R.layout.activity_order_new);
+        }
         milk = (CustomCheckBox) findViewById(R.id.box_milk);
         yogurt = (CustomCheckBox) findViewById(R.id.box_yogurt);
         quantity_milk = (NumberPicker) findViewById(R.id.number_picker);
