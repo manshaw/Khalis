@@ -269,11 +269,11 @@ public class AddActivity extends AppCompatActivity {
         String epoch = year1 + "-" + (month1 + 1) + "-" + day1 + "T" + hour + ":" + min + ":" + "00+0000";
         DateTime dateTimeInUtc = new DateTime(epoch, DateTimeZone.UTC);
         Long epochtime = (dateTimeInUtc.getMillis());
-        Date localtime = new Date(epochtime);
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date gmtTime = new Date(sdf.format(localtime));
-        contract.setTimeStamp(gmtTime.getTime());
+//        Date localtime = new Date(epochtime);
+//        SimpleDateFormat sdf = new SimpleDateFormat();
+//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        Date gmtTime = new Date(sdf.format(localtime));
+        contract.setTimeStamp(epochtime);
         contract.setStatus("Resumed");
         contract.setName(prefs.getString("Name", "John"));
         contract.setPayment("UnPaid");

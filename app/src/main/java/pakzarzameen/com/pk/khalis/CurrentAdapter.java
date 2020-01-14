@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import pakzarzameen.com.pk.khalis.Utils.AppLanguageManager;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
@@ -55,7 +56,7 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMM,yyyy \n  h:mm aaa");
-        //sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String normalTime = sdf.format(new java.util.Date(ci.getTimeStamp()));
         if (disabledelete(ci.getTimeStamp()))
             contactViewHolder.cross.setVisibility(View.GONE);
