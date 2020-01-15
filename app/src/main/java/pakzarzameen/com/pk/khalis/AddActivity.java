@@ -30,12 +30,9 @@ import com.weiwangcn.betterspinner.library.BetterSpinner;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import pakzarzameen.com.pk.khalis.Utils.AppLanguageManager;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
@@ -132,11 +129,9 @@ public class AddActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Calendar mcurrentTime = Calendar.getInstance();
                 final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
-
                 TimePickerDialog mTimePicker;
 
                 mTimePicker = new TimePickerDialog(AddActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, new TimePickerDialog.OnTimeSetListener() {
@@ -144,18 +139,25 @@ public class AddActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         AddActivity.this.hour = selectedHour;
                         AddActivity.this.min = selectedMinute;
-
+                        String sMinute = Integer.toString(selectedMinute);
+                        if (sMinute.length() == 1) {
+                            sMinute = "0" + sMinute;
+                        }
                         if (selectedHour > 12)
-                            timepick.setText(selectedHour - 12 + ":" + selectedMinute + " pm");
+                            timepick.setText(selectedHour - 12 + ":" + sMinute + " pm");
                         else if (selectedHour == 0)
-                            timepick.setText(12 + ":" + selectedMinute + " am");
+                            timepick.setText(12 + ":" + sMinute + " am");
                         else if (selectedHour < 12)
-                            timepick.setText(selectedHour + ":" + selectedMinute + " am");
+                            timepick.setText(selectedHour + ":" + sMinute + " am");
                         else if (selectedHour == 12)
-                            timepick.setText(selectedHour + ":" + selectedMinute + " pm");
+                            timepick.setText(selectedHour + ":" + sMinute + " pm");
                     }
                 }, hour, minute, false);
-                mTimePicker.setTitle("Select Time");
+                if (new AppLanguageManager(AddActivity.this).getAppLanguage().equals("ar")) {
+                    mTimePicker.setTitle("وقت منتخب کریں");
+                } else {
+                    mTimePicker.setTitle("Select Time");
+                }
                 mTimePicker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 mTimePicker.show();
 
@@ -215,7 +217,6 @@ public class AddActivity extends AppCompatActivity {
                 start_text.setText("Selet Start From Date");
             }
         }
-
     }
 
 
@@ -234,7 +235,6 @@ public class AddActivity extends AppCompatActivity {
             startActivity(nextActivity);
             finish();
         }
-
     }
 
     private void openAddressDialog() {
@@ -242,27 +242,51 @@ public class AddActivity extends AppCompatActivity {
         if (prefs.contains("Address")) {
             text.setText(prefs.getString("Address", "Address"));
         } else {
-            text.setHint("Address");
+            if (new AppLanguageManager(AddActivity.this).getAppLanguage().equals("ar")) {
+                text.setHint("پتہ");
+            } else {
+                text.setHint("Address");
+            }
         }
         text.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
         text.setFocusable(false);
         text.setFocusableInTouchMode(true);
-        AlertDialog alertDialog1 = new AlertDialog.Builder(AddActivity.this)
-                .setIcon(R.drawable.ic_add_location_black_24dp)
-                .setTitle("Address")
-                .setView(text)
-                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (text.getText().toString().trim().length() > 0) {
-                            address_given = true;
-                            contract.setAddress(text.getText().toString().trim());
-                            startNextActivity();
-                        } else
-                            Toast.makeText(AddActivity.this, "Kindly specify address for delivery", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .show();
+        if (new AppLanguageManager(AddActivity.this).getAppLanguage().equals("ar")) {
+            AlertDialog alertDialog1 = new AlertDialog.Builder(AddActivity.this)
+                    .setIcon(R.drawable.ic_add_location_black_24dp)
+                    .setTitle("پتہ")
+                    .setView(text)
+                    .setPositiveButton("ٹھیک ہے", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (text.getText().toString().trim().length() > 0) {
+                                address_given = true;
+                                contract.setAddress(text.getText().toString().trim());
+                                startNextActivity();
+                            } else
+                                Toast.makeText(AddActivity.this, "برائے مہربانی ترسیل کے لئے پتہ بتائیں", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .show();
+        } else {
+            AlertDialog alertDialog1 = new AlertDialog.Builder(AddActivity.this)
+                    .setIcon(R.drawable.ic_add_location_black_24dp)
+                    .setTitle("Address")
+                    .setView(text)
+                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (text.getText().toString().trim().length() > 0) {
+                                address_given = true;
+                                contract.setAddress(text.getText().toString().trim());
+                                startNextActivity();
+                            } else
+                                Toast.makeText(AddActivity.this, "Kindly specify address for delivery", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .show();
+        }
+
     }
 
     private void makeContract() {
@@ -277,8 +301,15 @@ public class AddActivity extends AppCompatActivity {
         contract.setStatus("Resumed");
         contract.setName(prefs.getString("Name", "John"));
         contract.setPayment("UnPaid");
-        if (!onetime)
-            contract.setScheduleType(schedule_spinner.getText().toString().trim());
+        if (!onetime) {
+            if (schedule_spinner.getText().toString().trim().equals("روزانہ")) {
+                contract.setScheduleType("Daily");
+            } else if (schedule_spinner.getText().toString().trim().equals("ہفتہ وار")) {
+                contract.setScheduleType("Weekly");
+            } else if (schedule_spinner.getText().toString().trim().equals("ماہانہ")) {
+                contract.setScheduleType("Monthly");
+            }
+        }
 
         if (custom_pick)
             contract.setDays(weekday_pick.getSelectedDaysText());
@@ -295,12 +326,20 @@ public class AddActivity extends AppCompatActivity {
                     return true;
         }
         if (timepick.getText().toString().trim().length() == 0) {
-            timepick.setError("You need to enter time");
+            if (new AppLanguageManager(AddActivity.this).getAppLanguage().equals("ar")) {
+                timepick.setError("آپ کو وقت داخل کرنے کی ضرورت ہے");
+            } else {
+                timepick.setError("You need to enter time");
+            }
             return false;
         }
 
         if (!schedule_done) {
-            schedule_spinner.setError("Please specify schedule");
+            if (new AppLanguageManager(AddActivity.this).getAppLanguage().equals("ar")) {
+                schedule_spinner.setError("برائے کرم شیڈول کی وضاحت کریں");
+            } else {
+                schedule_spinner.setError("Please specify schedule");
+            }
             return false;
         }
         return true;

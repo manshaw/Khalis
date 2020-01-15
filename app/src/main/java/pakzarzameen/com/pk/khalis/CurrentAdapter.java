@@ -46,9 +46,9 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
     }
 
     @Override
-    public void onBindViewHolder(final ContactViewHolder contactViewHolder, int i) {
-        AppLanguageManager appLanguageManager = new AppLanguageManager(contactViewHolder.card.getContext());
-        FbContract ci = DataList.get(i);
+    public void onBindViewHolder(final ContactViewHolder contactViewHolder, final int i) {
+        final AppLanguageManager appLanguageManager = new AppLanguageManager(contactViewHolder.card.getContext());
+        final FbContract ci = DataList.get(i);
         final String key = key_list.get(i);
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);
@@ -72,26 +72,49 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
         contactViewHolder.cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                final AlertDialog alertDialog1 = new AlertDialog.Builder(view.getContext())
-                        .setIcon(R.drawable.ic_delete_black_24dp)
-                        .setTitle("Delete Order")
-                        .setMessage("Are you sure you want to delete the order?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                deleteItem(key);
-                                Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
-                                view.getContext().startActivity(intent);
-                                ((Activity) view.getContext()).finish();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        })
-                        .show();
+                if (appLanguageManager.getAppLanguage().equals("ar")) {
+                    final AlertDialog alertDialog1 = new AlertDialog.Builder(view.getContext())
+                            .setIcon(R.drawable.ic_delete_black_24dp)
+                            .setTitle("آرڈر ختم کریں")
+                            .setMessage("کیا آپ واقعی آرڈر کو حذف کرنا چاہتے ہیں؟")
+                            .setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    deleteItem(key);
+                                    Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
+                                    view.getContext().startActivity(intent);
+                                    ((Activity) view.getContext()).finish();
+                                }
+                            })
+                            .setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            })
+                            .show();
+                } else {
+                    final AlertDialog alertDialog1 = new AlertDialog.Builder(view.getContext())
+                            .setIcon(R.drawable.ic_delete_black_24dp)
+                            .setTitle("Delete Order")
+                            .setMessage("Are you sure you want to delete the order?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    deleteItem(key);
+                                    Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
+                                    view.getContext().startActivity(intent);
+                                    ((Activity) view.getContext()).finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            })
+                            .show();
+                }
             }
         });
 
@@ -102,27 +125,51 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
                 contactViewHolder.pause.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {
-                        final AlertDialog alertDialog1 = new AlertDialog.Builder(view.getContext())
-                                .setIcon(R.drawable.ic_pause_black_24dp)
-                                .setTitle("Pause Order")
-                                .setMessage("Are you sure you want to pause the order?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        //DataList.get(i).setStatus("Paused");
-                                        pause(key, "Paused");
-                                        Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
-                                        view.getContext().startActivity(intent);
-                                        ((Activity) view.getContext()).finish();
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.cancel();
-                                    }
-                                })
-                                .show();
+                        if (appLanguageManager.getAppLanguage().equals("ar")) {
+                            final AlertDialog alertDialog1 = new AlertDialog.Builder(view.getContext())
+                                    .setIcon(R.drawable.ic_pause_black_24dp)
+                                    .setTitle("عارضی وقفہ")
+                                    .setMessage("کیا آپ واقعی آرڈر کو روکنا چاہتے ہیں؟")
+                                    .setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            //DataList.get(i).setStatus("Paused");
+                                            pause(key, "Paused");
+                                            Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
+                                            view.getContext().startActivity(intent);
+                                            ((Activity) view.getContext()).finish();
+                                        }
+                                    })
+                                    .setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.cancel();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            final AlertDialog alertDialog1 = new AlertDialog.Builder(view.getContext())
+                                    .setIcon(R.drawable.ic_pause_black_24dp)
+                                    .setTitle("Pause Order")
+                                    .setMessage("Are you sure you want to pause the order?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            //DataList.get(i).setStatus("Paused");
+                                            pause(key, "Paused");
+                                            Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
+                                            view.getContext().startActivity(intent);
+                                            ((Activity) view.getContext()).finish();
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.cancel();
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
                 });
             } else {
@@ -131,26 +178,49 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
                 contactViewHolder.pause.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {
-                        final AlertDialog alertDialog1 = new AlertDialog.Builder(view.getContext())
-                                .setIcon(R.drawable.ic_play_arrow_black_24dp)
-                                .setTitle("Resume Order")
-                                .setMessage("Are you sure you want to resume the order?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        pause(key, "Resumed");
-                                        Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
-                                        view.getContext().startActivity(intent);
-                                        ((Activity) view.getContext()).finish();
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.cancel();
-                                    }
-                                })
-                                .show();
+                        if (appLanguageManager.getAppLanguage().equals("ar")) {
+                            final AlertDialog alertDialog1 = new AlertDialog.Builder(view.getContext())
+                                    .setIcon(R.drawable.ic_play_arrow_black_24dp)
+                                    .setTitle("دوبارہ شروع کریں")
+                                    .setMessage("کیا آپ واقعی آرڈر دوبارہ شروع کرنا چاہتے ہیں؟")
+                                    .setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            pause(key, "Resumed");
+                                            Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
+                                            view.getContext().startActivity(intent);
+                                            ((Activity) view.getContext()).finish();
+                                        }
+                                    })
+                                    .setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.cancel();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            final AlertDialog alertDialog1 = new AlertDialog.Builder(view.getContext())
+                                    .setIcon(R.drawable.ic_play_arrow_black_24dp)
+                                    .setTitle("Resume Order")
+                                    .setMessage("Are you sure you want to resume the order?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            pause(key, "Resumed");
+                                            Intent intent = new Intent(view.getContext(), CurrentOrderActivity.class);
+                                            view.getContext().startActivity(intent);
+                                            ((Activity) view.getContext()).finish();
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.cancel();
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
                 });
             }

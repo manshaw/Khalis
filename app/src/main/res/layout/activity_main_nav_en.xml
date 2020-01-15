@@ -34,50 +34,7 @@
             android:background="@drawable/layout_rounded_corners_white_bg"
             android:fitsSystemWindows="true"
             app:itemTextAppearance="@style/NavigationViewStyle"
-            app:menu="@menu/activity_main_drawer">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:clickable="true"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/ic_logout" />
-
-                    <TextView
-                        android:id="@+id/nav_item_logout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:paddingRight="5dp"
-                        android:text="Log Out"
-                        android:textColor="@color/colorRed"
-                        android:textSize="24dp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:background="@color/colorPrimaryDark" />
-            </LinearLayout>
-        </com.google.android.material.navigation.NavigationView>
+            app:menu="@menu/activity_main_drawer"></com.google.android.material.navigation.NavigationView>
 
         <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
 

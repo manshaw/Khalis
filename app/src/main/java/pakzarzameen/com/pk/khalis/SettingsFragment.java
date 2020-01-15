@@ -28,7 +28,7 @@ public class SettingsFragment extends Fragment {
         llUrdu = (LinearLayout) view.findViewById(R.id.llLanguageUrdu);
         final AppLanguageManager appLanguageManager = new AppLanguageManager(getContext());
         if (appLanguageManager.getAppLanguage().equals("ar")) {
-            tvHeading.setText("براہ کرم لیجویج منتخب کریں");
+            tvHeading.setText("براہ کرم زبان منتخب کریں");
         } else {
             tvHeading.setText("Please Select Language");
         }
