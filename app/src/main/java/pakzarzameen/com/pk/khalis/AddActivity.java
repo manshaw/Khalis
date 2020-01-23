@@ -308,6 +308,8 @@ public class AddActivity extends AppCompatActivity {
                 contract.setScheduleType("Weekly");
             } else if (schedule_spinner.getText().toString().trim().equals("ماہانہ")) {
                 contract.setScheduleType("Monthly");
+            } else {
+                contract.setScheduleType(schedule_spinner.getText().toString().trim());
             }
         }
 
