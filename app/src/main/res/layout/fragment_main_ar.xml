@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="ادا شُدا"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/lightGreen"
                         android:textSize="32dp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -88,7 +88,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="5dp"
                 android:text="0"
-                android:textColor="#0099cc"
+                android:textColor="@color/lightGreen"
                 android:textSize="32dp" />
 
         </LinearLayout>
@@ -136,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="موجودہ"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/lightGreen"
                         android:textSize="32dp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -164,7 +164,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="5dp"
                 android:text="0"
-                android:textColor="#0099cc"
+                android:textColor="@color/lightGreen"
                 android:textSize="32dp" />
 
         </LinearLayout>
@@ -212,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="نیا"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/lightGreen"
                         android:textSize="32dp"
                         android:textStyle="bold" />
                 </LinearLayout>

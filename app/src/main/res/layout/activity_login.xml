@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="156dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="Please Enter your Mobile number"
+        android:textColor="@color/colorAccent"
+        android:textSize="18dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_vertical">
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/ccp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ccpDialog_backgroundColor="@android:color/white"
+            app:ccp_defaultNameCode="PK" />
+
+        <EditText
+            android:id="@+id/phoneText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="156dp"
-            android:gravity="center"
+            android:inputType="phone"
             android:singleLine="true"
-            android:text="Please Enter your Mobile number"
             android:textColor="@android:color/black"
-            android:textSize="18dp" />
+            android:textColorHint="@android:color/darker_gray" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_marginTop="200dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp">
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/ccp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:ccpDialog_backgroundColor="@android:color/white"
-                app:ccp_defaultNameCode="PK" />
-            <EditText
-                android:id="@+id/phoneText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
-                android:inputType="phone"
-                android:singleLine="true" />
+    </LinearLayout>
 
-        </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -48,9 +50,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        app:backgroundTint="@android:color/holo_blue_dark"
-        android:src="@drawable/ic_arrow_forward"
-        app:fabSize="normal"
         android:onClick="startNextActivity"
-        />
+        android:src="@drawable/ic_arrow_forward"
+        app:backgroundTint="@color/colorAccent"
+        app:fabSize="normal" />
 </RelativeLayout>

@@ -40,7 +40,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
-                app:color_checked="@android:color/holo_blue_dark"
+                app:color_checked="@color/lightGreen"
                 app:color_tick="#fff" />
 
             <ImageView
@@ -71,7 +71,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
-                app:color_checked="@android:color/holo_blue_dark"
+                app:color_checked="@color/lightGreen"
                 app:color_tick="#fff" />
 
             <ImageView
@@ -133,12 +133,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                app:np_dividerColor="@android:color/holo_blue_dark"
+                app:np_dividerColor="@color/colorAccent"
                 app:np_height="50dp"
                 app:np_max="10"
                 app:np_min="1"
                 app:np_orientation="horizontal"
-                app:np_selectedTextColor="@android:color/holo_blue_dark"
+                app:np_selectedTextColor="@color/lightGreen"
                 app:np_selectedTextSize="23dp"
                 app:np_textColor="@android:color/black"
                 app:np_textSize="18dp"
@@ -183,12 +183,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                app:np_dividerColor="@android:color/holo_blue_dark"
+                app:np_dividerColor="@color/colorAccent"
                 app:np_height="50dp"
                 app:np_max="10"
                 app:np_min="1"
                 app:np_orientation="horizontal"
-                app:np_selectedTextColor="@android:color/holo_blue_dark"
+                app:np_selectedTextColor="@color/lightGreen"
                 app:np_selectedTextSize="23dp"
                 app:np_textColor="@android:color/black"
                 app:np_textSize="18dp"
@@ -252,7 +252,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    app:color_checked="@android:color/holo_blue_dark"
+                    app:color_checked="@color/lightGreen"
                     app:color_tick="#fff" />
             </LinearLayout>
 
@@ -280,7 +280,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    app:color_checked="@android:color/holo_blue_dark"
+                    app:color_checked="@color/lightGreen"
                     app:color_tick="#fff" />
             </LinearLayout>
 
@@ -310,7 +310,7 @@
         android:layout_margin="16dp"
         android:onClick="startNextActivity"
         android:src="@drawable/ic_arrow_forward"
-        app:backgroundTint="@android:color/holo_blue_dark"
+        app:backgroundTint="@color/colorAccent"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
