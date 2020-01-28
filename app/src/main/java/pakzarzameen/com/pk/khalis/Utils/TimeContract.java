@@ -4,27 +4,27 @@ import java.io.Serializable;
 
 public class TimeContract implements Serializable {
 
-    private double MilkQuantity;
-    private double YogurtQuantity;
+    private double NewOrders;
+    private double NewUsers;
 
 
     public TimeContract(){
 
     }
 
-    public double getYogurtQuantity() {
-        return YogurtQuantity;
+    public double getNewUsers() {
+        return NewUsers;
     }
 
-    public void setYogurtQuantity(double yogurtQuantity) {
-        YogurtQuantity = yogurtQuantity;
+    public void setNewUsers(double newUsers) {
+        NewUsers = newUsers;
     }
 
-    public double getMilkQuantity() {
-        return MilkQuantity;
+    public double getNewOrders() {
+        return NewOrders;
     }
 
-    public void setMilkQuantity(double milkQuantity) {
-        MilkQuantity = milkQuantity;
+    public void setNewOrders(double newOrders) {
+        NewOrders = newOrders;
     }
 }

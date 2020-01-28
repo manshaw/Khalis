@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.dpro.widgets.OnWeekdaysChangeListener;
 import com.dpro.widgets.WeekdaysPicker;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUserMetadata;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -77,6 +78,8 @@ public class AddActivity extends AppCompatActivity {
     SharedPreferences prefs = null;
     private static final String PACAKGE_NAME = "pk.com.pakzarzameen.khalis";
     String currentDate;
+    FirebaseUserMetadata userMetadata;
+    private double nusers, norders;
 
 
     @Override
@@ -84,6 +87,7 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_add);
         user = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        userMetadata = FirebaseAuth.getInstance().getCurrentUser().getMetadata();
         mDatabase = FirebaseDatabase.getInstance().getReference("/Test/User/" + user + "/Current Orders");
         Calendar currCalendar = Calendar.getInstance();
         contract = (FbContract) getIntent().getSerializableExtra("Firebase");
@@ -333,8 +337,17 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void setTimeContract(){
-        tcontract.setMilkQuantity(contract.getMilkQuantity());
-        tcontract.setYogurtQuantity(contract.getYogurtQuantity());
+        if (userMetadata.getCreationTimestamp() == userMetadata.getLastSignInTimestamp()) {
+            nusers = 1;
+            norders = 1;
+            tcontract.setNewUsers(1);
+            tcontract.setNewOrders(1);
+        } else {
+            nusers = 0;
+            norders = 1;
+            tcontract.setNewUsers(0);
+            tcontract.setNewOrders(1);
+        }
         mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/");
         mDatabase.child(currentDate);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -348,8 +361,8 @@ public class AddActivity extends AppCompatActivity {
                 {
                     mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
                     tcontract = snapshot.child(currentDate).getValue(TimeContract.class);
-                    tcontract.setYogurtQuantity(tcontract.getYogurtQuantity()+contract.getYogurtQuantity());
-                    tcontract.setMilkQuantity(tcontract.getMilkQuantity()+contract.getMilkQuantity());
+                    tcontract.setNewOrders(tcontract.getNewOrders()+norders);
+                    tcontract.setNewUsers(tcontract.getNewUsers()+nusers);
                     mDatabase.setValue(tcontract);
                 }
             }
