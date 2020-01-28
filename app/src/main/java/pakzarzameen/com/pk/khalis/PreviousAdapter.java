@@ -1,9 +1,5 @@
 package pakzarzameen.com.pk.khalis;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.TimeZone;
 
 import androidx.recyclerview.widget.RecyclerView;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;

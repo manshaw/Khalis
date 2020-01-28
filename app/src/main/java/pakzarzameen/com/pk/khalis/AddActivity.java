@@ -18,24 +18,32 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dpro.widgets.OnWeekdaysChangeListener;
 import com.dpro.widgets.WeekdaysPicker;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import pakzarzameen.com.pk.khalis.Utils.AppLanguageManager;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
+import pakzarzameen.com.pk.khalis.Utils.TimeContract;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -50,6 +58,7 @@ public class AddActivity extends AppCompatActivity {
     EditText timepick;
     TextView start_text;
     FbContract contract;
+    TimeContract tcontract = new TimeContract();
     private int year1;
     private int month1;
     private int day1;
@@ -67,6 +76,7 @@ public class AddActivity extends AppCompatActivity {
     List<Integer> days_selected = new ArrayList<>();
     SharedPreferences prefs = null;
     private static final String PACAKGE_NAME = "pk.com.pakzarzameen.khalis";
+    String currentDate;
 
 
     @Override
@@ -77,6 +87,7 @@ public class AddActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("/Test/User/" + user + "/Current Orders");
         Calendar currCalendar = Calendar.getInstance();
         contract = (FbContract) getIntent().getSerializableExtra("Firebase");
+        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         prefs = getSharedPreferences(PACAKGE_NAME, MODE_PRIVATE);
         weekday_pick = (WeekdaysPicker) findViewById(R.id.weekdays);
         timepick = (EditText) findViewById(R.id.timepicker);
@@ -317,8 +328,38 @@ public class AddActivity extends AppCompatActivity {
             contract.setDays(weekday_pick.getSelectedDaysText());
 
         mDatabase.push().setValue(contract);
+        setTimeContract();
+
     }
 
+    private void setTimeContract(){
+        tcontract.setMilkQuantity(contract.getMilkQuantity());
+        tcontract.setYogurtQuantity(contract.getYogurtQuantity());
+        mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/");
+        mDatabase.child(currentDate);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.getValue() == null) {
+                    mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
+                    mDatabase.setValue(tcontract);
+                }
+                else
+                {
+                    mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
+                    tcontract = snapshot.child(currentDate).getValue(TimeContract.class);
+                    tcontract.setYogurtQuantity(tcontract.getYogurtQuantity()+contract.getYogurtQuantity());
+                    tcontract.setMilkQuantity(tcontract.getMilkQuantity()+contract.getMilkQuantity());
+                    mDatabase.setValue(tcontract);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     private boolean isValid() {
         if (onetime && timepick.getText().toString().trim().length() > 0)
             return true;
