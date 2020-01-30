@@ -348,19 +348,18 @@ public class AddActivity extends AppCompatActivity {
             tcontract.setNewUsers(0);
             tcontract.setNewOrders(1);
         }
-        mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/");
-        mDatabase.child(currentDate);
+        mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.getValue() == null) {
-                    mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
+//                    mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
                     mDatabase.setValue(tcontract);
                 }
                 else
                 {
-                    mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
-                    tcontract = snapshot.child(currentDate).getValue(TimeContract.class);
+//                    mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
+                    tcontract = snapshot.getValue(TimeContract.class);
                     tcontract.setNewOrders(tcontract.getNewOrders()+norders);
                     tcontract.setNewUsers(tcontract.getNewUsers()+nusers);
                     mDatabase.setValue(tcontract);
