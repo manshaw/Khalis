@@ -29,6 +29,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import pakzarzameen.com.pk.khalis.Utils.LoginActivityCheck;
 
 import java.util.concurrent.TimeUnit;
 
@@ -66,7 +67,6 @@ public class VerifyActivity extends AppCompatActivity {
         btnResend = findViewById(R.id.button3);
         setupUI();
         prefs = getSharedPreferences(PACAKGE_NAME, MODE_PRIVATE);
-        prefs.edit().putBoolean("SignedIn", true).commit();
         setButtonContinueClickbleOrNot();
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -106,6 +106,7 @@ public class VerifyActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("/Test/User/" + user);
         prefs.edit().putString("Type", "user").commit();
         mDatabase.setValue("");
+        prefs.edit().putBoolean("SignedIn", true).commit();
         prefs.edit().putBoolean("TypeSpecified", true).commit();
         prefs.edit().putString("PhoneNumber", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()).commit();
         Intent nextActivity = new Intent(this, MainActivity.class);
