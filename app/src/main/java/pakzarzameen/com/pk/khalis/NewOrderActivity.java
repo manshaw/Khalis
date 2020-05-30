@@ -2,14 +2,22 @@ package pakzarzameen.com.pk.khalis;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.shawnlin.numberpicker.NumberPicker;
+import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import net.igenius.customcheckbox.CustomCheckBox;
 
@@ -17,16 +25,36 @@ import pakzarzameen.com.pk.khalis.Utils.AppLanguageManager;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
 
 public class NewOrderActivity extends AppCompatActivity {
-    private CustomCheckBox milk, yogurt, order_one, schedule_order;
-    private NumberPicker quantity_milk, quantity_yogurt;
-    private Boolean milk_highligh = false, yogurt_highlight = false;
-    private TextView milk_text, yogurt_text;
+    private CustomCheckBox order_one, schedule_order;
     private FbContract contract = new FbContract();
     private Boolean one_time = false, schedule_time = false;
-    double quant_m, quant_y;
-    private AlphaAnimation alphaDown;
-    private AlphaAnimation alphaUp;
-    private LinearLayout bodyContainer, llquantityMilk, llquantityYogurt;
+    Float quan_buffalo = 0f, quan_cow = 0f, quan_yogurt = 0f, quan_butter = 0f, quan_ghee = 0f;
+    String quan_butter_detail, quan_ghee_detail;
+    Button add;
+    BetterSpinner items, quantity;
+    Integer serial = 1;
+    Boolean pass = Boolean.FALSE;
+    Float Total = 0f;
+
+    private static final String[] ITEMS = new String[]{
+            "Buffalo Milk", "Cow Milk", "Yogurt", "Butter", "Desi Ghee"
+    };
+    private static final String[] PACKING = new String[]{
+            "1 liter"
+    };
+    private static final String[] PACKING_BUTTER = new String[]{
+            "0.25 kg", "0.5 kg", "1 kg", "1.25 kg", "1.5 kg", "1.75 kg", "2 kg", "2.25 kg", "2.5 kg", "2.75 kg", "3 kg"
+    };
+    private static final String[] PACKING_GHEE = new String[]{
+            "0.5 kg", "1 kg", "1.5 kg", "2 kg", "2.5 kg", "3 kg", "3.5 kg", "4 kg", "4.5 kg", "5 kg"
+    };
+    private static final String[] PACKING_MILK = new String[]{
+            "1 liter", "2 liter", "3 liter", "4 liter", "5 liter", "6 liter", "7 liter", "8 liter", "9 liter", "10 liter"
+    };
+
+    private static final String[] PACKING_YOGURT = new String[]{
+            "1 kg", "2 kg", "3 kg", "4 kg", "5 kg", "6 kg", "7 kg", "8 kg", "9 kg", "10 kg"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,99 +64,87 @@ public class NewOrderActivity extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_order_new);
         }
-        milk = (CustomCheckBox) findViewById(R.id.box_milk);
-        yogurt = (CustomCheckBox) findViewById(R.id.box_yogurt);
-        quantity_milk = (NumberPicker) findViewById(R.id.number_picker);
-        quantity_yogurt = (NumberPicker) findViewById(R.id.number_picker2);
         order_one = (CustomCheckBox) findViewById(R.id.order_one);
         schedule_order = (CustomCheckBox) findViewById(R.id.schedule);
-        milk_text = (TextView) findViewById(R.id.milk_text);
-        yogurt_text = (TextView) findViewById(R.id.yogurt_text);
-        bodyContainer = (LinearLayout) findViewById(R.id.body_container);
-        llquantityMilk = (LinearLayout) findViewById(R.id.llquantity_milk);
-        llquantityYogurt = (LinearLayout) findViewById(R.id.llquantity_yogurt);
         order_one.setChecked(false, true);
         schedule_order.setChecked(false, true);
-        yogurt.setChecked(false, true);
-        milk.setChecked(false, true);
-
-        // This is for the animation part
-        alphaDown = new AlphaAnimation(1.0f, 0.0f);
-        alphaUp = new AlphaAnimation(0.0f, 1.0f);
-        alphaDown.setDuration(500);
-        alphaUp.setDuration(1000);
-        alphaDown.setFillAfter(true);
-        alphaUp.setFillAfter(true);
-
-        contract.setMilkQuantity(0);
-        contract.setYogurtQuantity(0);
+        add = (Button) findViewById(R.id.add);
+        items = (BetterSpinner) findViewById(R.id.items);
+        quantity = (BetterSpinner) findViewById(R.id.quantity);
+        ArrayAdapter<String> adapter_items = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, ITEMS);
+        final ArrayAdapter<String> adapter_packng_butter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, PACKING_BUTTER);
+        final ArrayAdapter<String> adapter_packng_ghee = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, PACKING_GHEE);
+        final ArrayAdapter<String> adapter_packing_milk = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, PACKING_MILK);
+        final ArrayAdapter<String> adapter_packing_yogurt = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, PACKING_YOGURT);
+        items.setAdapter(adapter_items);
+        quantity.setAdapter(adapter_packing_milk);
+        contract.setButterQuantity(0f);
+        contract.setCowMilkQuantity(0f);
+        contract.setYogurtQuantity(0f);
+        contract.setButterQuantity(0f);
+        contract.setGheeQuantity(0f);
         contract.setAddress("");
         contract.setOrderType("");
+        contract.setButterDetail("");
+        contract.setGheeDetail("");
         contract.setTimeStamp(0l);
 
-        quantity_yogurt.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        items.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                quant_y = (double) newVal;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
-        });
-        quantity_milk.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                quant_m = (double) newVal;
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().equals("Buffalo Milk") || s.toString().equals("Cow Milk")) {
+                    quantity.setText(null);
+                    quantity.setAdapter(adapter_packing_milk);
+                } else if (s.toString().equals("Yogurt")) {
+                    quantity.setText(null);
+                    quantity.setAdapter(adapter_packing_yogurt);
+                } else if (s.toString().equals("Butter")) {
+                    quantity.setText(null);
+                    quantity.setAdapter(adapter_packng_butter);
+                } else if (s.toString().equals("Desi Ghee")) {
+                    quantity.setText(null);
+                    quantity.setAdapter(adapter_packng_ghee);
+                }
             }
         });
 
-        milk.setOnCheckedChangeListener(new CustomCheckBox.OnCheckedChangeListener() {
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CustomCheckBox checkBox, boolean isChecked) {
-                if (milk.isChecked()) {
-                    milk_highligh = true;
-                    milk_text.setHintTextColor(getResources().getColor(R.color.colorAccent));
-                    quantity_milk.setDividerColor(getResources().getColor(R.color.colorAccent));
-                    bodyContainer.setVisibility(View.VISIBLE);
-                    bodyContainer.startAnimation(alphaUp);
-                    llquantityMilk.setVisibility(View.VISIBLE);
-                    llquantityMilk.startAnimation(alphaUp);
-                } else {
-                    milk_highligh = false;
-                    milk_text.setHintTextColor(getResources().getColor(R.color.label_text));
-                    quantity_milk.setDividerColor(getResources().getColor(R.color.label_text));
-                    if (!yogurt_highlight) {
-                        llquantityYogurt.setVisibility(View.GONE);
-                        bodyContainer.startAnimation(alphaDown);
-                        bodyContainer.setVisibility(View.GONE);
+            public void onClick(View v) {
+                if (valid()) {
+                    pass = Boolean.TRUE;
+                    if (items.getText().toString().equals("Yogurt")) {
+                        quan_yogurt = Float.parseFloat(quantity.getText().toString().split("\\s+")[0]);
+                        totalPayment(quan_yogurt, 140);
+                    } else if (items.getText().toString().equals("Buffalo Milk")) {
+                        quan_buffalo = Float.parseFloat(quantity.getText().toString().split("\\s+")[0]);
+                        totalPayment(quan_buffalo, 120);
+                    } else if (items.getText().toString().equals("Cow Milk")) {
+                        quan_cow = Float.parseFloat(quantity.getText().toString().split("\\s+")[0]);
+                        totalPayment(quan_cow, 120);
+                    } else if (items.getText().toString().equals("Butter")) {
+                        quan_butter = Float.parseFloat(quantity.getText().toString().split("\\s+")[0]);
+                        totalPayment(quan_butter, 1200);
+                    } else if (items.getText().toString().equals("Desi Ghee")) {
+                        quan_ghee = Float.parseFloat(quantity.getText().toString().split("\\s+")[0]);
+                        totalPayment(quan_ghee, 1900);
                     }
-                    llquantityMilk.startAnimation(alphaDown);
-                    llquantityMilk.setVisibility(View.GONE);
+                    addRow(serial, items.getText().toString(), quantity.getText().toString());
+                    serial = serial + 1;
                 }
             }
         });
-        yogurt.setOnCheckedChangeListener(new CustomCheckBox.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CustomCheckBox checkBox, boolean isChecked) {
-                if (yogurt.isChecked()) {
-                    yogurt_highlight = true;
-                    yogurt_text.setHintTextColor(getResources().getColor(R.color.colorAccent));
-                    quantity_yogurt.setDividerColor(getResources().getColor(R.color.colorAccent));
-                    bodyContainer.setVisibility(View.VISIBLE);
-                    bodyContainer.startAnimation(alphaUp);
-                    llquantityYogurt.setVisibility(View.VISIBLE);
-                    llquantityYogurt.startAnimation(alphaUp);
-                } else {
-                    yogurt_highlight = false;
-                    yogurt_text.setHintTextColor(getResources().getColor(R.color.label_text));
-                    quantity_yogurt.setDividerColor(getResources().getColor(R.color.label_text));
-                    if (!milk_highligh) {
-                        llquantityMilk.setVisibility(View.GONE);
-                        bodyContainer.startAnimation(alphaDown);
-                        bodyContainer.setVisibility(View.GONE);
-                    }
-                    llquantityYogurt.startAnimation(alphaDown);
-                    llquantityYogurt.setVisibility(View.GONE);
-                }
-            }
-        });
+
         order_one.setOnCheckedChangeListener(new CustomCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CustomCheckBox checkBox, boolean isChecked) {
@@ -151,38 +167,50 @@ public class NewOrderActivity extends AppCompatActivity {
                     schedule_time = true;
             }
         });
+
     }
 
-    public boolean isValid() {
-        if ((milk.isChecked() || yogurt.isChecked()) && (order_one.isChecked() || schedule_order.isChecked()))
-            return true;
-        return false;
+    public Boolean valid() {
+        if (TextUtils.isEmpty(items.getText())) {
+            items.setError("Item is required!");
+            return Boolean.FALSE;
+        } else if (TextUtils.isEmpty(quantity.getText())) {
+            quantity.setError("Quantity is required!");
+            return Boolean.FALSE;
+        } else {
+            quantity.setError(null);
+            items.setError(null);
+            return Boolean.TRUE;
+        }
     }
+
 
     public void startNextActivity(View view) {
-        if (isValid()) {
+        if (pass) {
             makeContract();
             Intent nextActivity = new Intent(this, AddActivity.class);
             nextActivity.putExtra("Firebase", contract);
             nextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(nextActivity);
             finish();
+        } else {
+            if (new AppLanguageManager(NewOrderActivity.this).getAppLanguage().equals("ar")) {
+                Toast.makeText(this, "براہ کرم پہلے کچھ مصنوعات شامل کریں", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Kindly add some products first", Toast.LENGTH_SHORT).show();
+            }
         }
+
     }
 
     public void makeContract() {
-        if (milk.isChecked()) {
-            if (quant_m > 1)
-                contract.setMilkQuantity(quant_m);
-            else
-                contract.setMilkQuantity(1);
-        }
-        if (yogurt.isChecked()) {
-            if (quant_y > 1)
-                contract.setYogurtQuantity(quant_y);
-            else
-                contract.setYogurtQuantity(1);
-        }
+        contract.setBuffaloMilkQuantity(quan_buffalo);
+        contract.setCowMilkQuantity(quan_cow);
+        contract.setYogurtQuantity(quan_yogurt);
+        contract.setButterQuantity(quan_butter);
+        contract.setGheeQuantity(quan_ghee);
+        contract.setGheeDetail(quan_ghee_detail);
+        contract.setButterDetail(quan_butter_detail);
         if (one_time)
             contract.setOrderType("One-Time");
         if (schedule_time)
@@ -190,4 +218,45 @@ public class NewOrderActivity extends AppCompatActivity {
     }
 
 
+    public void addRow(Integer serial, String name, String quan) {
+        TextView tip = (TextView) findViewById(R.id.tip);
+        tip.setVisibility(View.GONE);
+        TableLayout table = (TableLayout) findViewById(R.id.items_table);
+        TableRow tr = new TableRow(this);
+        tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        tr.setBackground(getDrawable(R.drawable.cell));
+        LinearLayout item = new LinearLayout(this);
+        item.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 7));
+        item.setGravity(Gravity.CENTER);
+        item.setOrientation(LinearLayout.HORIZONTAL);
+        TextView tb_serial = new TextView(this);
+        tb_serial.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+        tb_serial.setText("#" + serial.toString());
+        item.addView(tb_serial);
+
+        TextView tb_item = new TextView(this);
+        tb_item.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 3));
+        tb_item.setText(name);
+        item.addView(tb_item);
+
+        TextView tb_quantity = new TextView(this);
+        tb_quantity.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+        tb_quantity.setText(quan);
+        item.addView(tb_quantity);
+
+        tr.addView(item);
+        table.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+    }
+
+    public void totalPayment(Float quan, Integer price) {
+        TextView total = (TextView) findViewById(R.id.total);
+//        Total = Total + (quan_buffalo * 120) + (quan_butter * 1200) + (quan_cow * 120) + (quan_yogurt * 140) + (quan_ghee * 1900);
+        Total = Total + (quan * price);
+        contract.setTotal(Total);
+        if (new AppLanguageManager(NewOrderActivity.this).getAppLanguage().equals("ar")) {
+            total.setText(" Rs." + Total + "کل ادائیگی ");
+        } else {
+            total.setText("Total Payment: " + Total + " Rs.");
+        }
+    }
 }

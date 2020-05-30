@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Khalis</string>
+    <string name="app_name">Khaalis</string>
     <string name="title_activity_main_nav">MainNavActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -14,4 +14,36 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+
+    <string-array name="items">
+        <item>Baffalo Milk</item>
+        <item>Cow Milk</item>
+        <item>Yogurt</item>
+        <item>Butter</item>
+        <item>Desi Ghee</item>
+    </string-array>
+
+    <string-array name="packing_1">
+        <item>1 liter</item>
+        <item>2 liter</item>
+        <item>3 liter</item>
+    </string-array>
+
+    <string-array name="packing_250">
+        <item>250 grams</item>
+        <item>0.5 kg</item>
+    </string-array>
+    <string-array name="quanity">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
 </resources>

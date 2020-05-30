@@ -1,229 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/milky_background"
+    android:background="@drawable/main_back"
     android:orientation="vertical">
 
 
     <LinearLayout
-        android:id="@+id/llselect_item"
+        android:id="@+id/add_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/add_item_back"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintTop_toBottomOf="@+id/ask"
-        tools:layout_editor_absoluteX="0dp">
+        android:orientation="vertical"
+        android:weightSum="3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/llmilk"
+        <TextView
+            android:id="@+id/ask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:text="آپ کیا چاہتے ہیں؟"
+            android:textColor="#000"
+            android:textSize="24dp"
+            android:textStyle="bold" />
 
-            <!--        <TextView-->
-            <!--            android:layout_width="0dp"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_weight="2.5"-->
-            <!--            android:gravity="center"-->
-            <!--            android:text="Milk"-->
-            <!--            android:textColor="#000"-->
-            <!--            android:textSize="24dp" />-->
+        <LinearLayout
+            android:id="@+id/llselect_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
-            <net.igenius.customcheckbox.CustomCheckBox
-                android:id="@+id/box_milk"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                app:color_checked="@android:color/holo_blue_dark"
-                app:color_tick="#fff" />
 
-            <ImageView
-                android:layout_width="74dp"
-                android:layout_height="74dp"
-                android:background="@drawable/ic_milk_ar" />
+            <com.weiwangcn.betterspinner.library.BetterSpinner
+                android:id="@+id/items"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:hint="مصنوعات"
+                android:textSize="16dp"></com.weiwangcn.betterspinner.library.BetterSpinner>
+
+            <com.weiwangcn.betterspinner.library.BetterSpinner
+                android:id="@+id/packings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:hint="پیکنگ"
+                android:textSize="16dp"></com.weiwangcn.betterspinner.library.BetterSpinner>
+
+            <com.weiwangcn.betterspinner.library.BetterSpinner
+                android:id="@+id/quantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:hint="مقدار"
+                android:textSize="16dp"></com.weiwangcn.betterspinner.library.BetterSpinner>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/llyogurt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/add"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="15dp"
             android:layout_weight="1"
-            android:gravity="center">
-
-            <!--        <TextView-->
-            <!--            android:layout_width="0dp"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_weight="2.5"-->
-            <!--            android:gravity="center"-->
-            <!--            android:text="Yogurt"-->
-            <!--            android:textColor="#000"-->
-            <!--            android:textSize="24dp" />-->
-
-            <net.igenius.customcheckbox.CustomCheckBox
-                android:id="@+id/box_yogurt"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                app:color_checked="@android:color/holo_blue_dark"
-                app:color_tick="#fff" />
-
-            <ImageView
-                android:layout_width="74dp"
-                android:layout_height="74dp"
-                android:background="@drawable/ic_yogurt_ar" />
-        </LinearLayout>
+            android:background="@drawable/add_btn_back"
+            android:gravity="center"
+            android:text="شامل کریں"
+            android:textColor="#fff"
+            android:textSize="16dp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/body_container"
+        android:id="@+id/selected_items"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/add_item_back"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="invisible"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/order_type"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llselect_item">
+        app:layout_constraintTop_toBottomOf="@+id/add_card">
 
         <TextView
-            android:id="@+id/quantity"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="مقدار ؟"
+            android:text="منتخب کردہ اشیاء"
             android:textColor="#000"
-            android:textSize="32dp"
+            android:textSize="24dp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/llquantity_milk"
+
+        <TextView
+            android:id="@+id/tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:gravity="center"
+            android:text="فہرست خالی ہے۔ برائے مہربانی کچھ چیزیں شامل کریں"
+            android:textColor="#4E4E4E"
+            android:textSize="16dp" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:weightSum="5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quantity">
+            android:scrollbars="horizontal">
 
-            <TextView
-                android:id="@+id/milk_text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="دودھ"
-                android:textColor="@color/gray"
-                android:textSize="20dp" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
 
-            <com.shawnlin.numberpicker.NumberPicker
-                android:id="@+id/number_picker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                app:np_dividerColor="@android:color/holo_blue_dark"
-                app:np_height="50dp"
-                app:np_max="10"
-                app:np_min="1"
-                app:np_orientation="horizontal"
-                app:np_selectedTextColor="@android:color/holo_blue_dark"
-                app:np_selectedTextSize="23dp"
-                app:np_textColor="@android:color/black"
-                app:np_textSize="18dp"
-                app:np_value="1"
-                app:np_width="150dp" />
+                <TableLayout
+                    android:id="@+id/items_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:scrollbars="vertical">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="کلو"
-                android:textColor="@color/gray"
-                android:textSize="20dp" />
-        </LinearLayout>
+                </TableLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/llquantity_yogurt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:weightSum="5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llquantity_milk">
 
-            <TextView
-                android:id="@+id/yogurt_text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="دہی"
-                android:textColor="@color/gray"
-                android:textSize="20dp" />
+        </ScrollView>
 
-            <com.shawnlin.numberpicker.NumberPicker
-                android:id="@+id/number_picker2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                app:np_dividerColor="@android:color/holo_blue_dark"
-                app:np_height="50dp"
-                app:np_max="10"
-                app:np_min="1"
-                app:np_orientation="horizontal"
-                app:np_selectedTextColor="@android:color/holo_blue_dark"
-                app:np_selectedTextSize="23dp"
-                app:np_textColor="@android:color/black"
-                app:np_textSize="18dp"
-                app:np_value="1"
-                app:np_width="150dp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="کلو"
-                android:textColor="@color/gray"
-                android:textSize="20dp" />
-        </LinearLayout>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="کل ادائیگی Rs. 0"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/selected_items"
+        app:layout_constraintLeft_toLeftOf="@id/selected_items"
+        app:layout_constraintRight_toRightOf="@id/selected_items" />
+
+    <LinearLayout
+        android:id="@+id/order_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/add_item_back"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/footer_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <TextView
             android:id="@+id/order_type_heading"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="آرڈر کی قسم ؟"
+            android:text="آرڈر کی قسم"
             android:textColor="#000"
-            android:textSize="32dp"
+            android:textSize="24dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/llquantity_yogurt" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <LinearLayout
             android:id="@+id/llorder_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -242,9 +209,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="ایک وقت کا آرڈر"
+                    android:text="ایک دفعہ"
                     android:textColor="@color/gray"
-                    android:textSize="18dp"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <net.igenius.customcheckbox.CustomCheckBox
@@ -252,7 +219,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    app:color_checked="@android:color/holo_blue_dark"
+                    app:color_checked="@color/lightGreen"
                     app:color_tick="#fff" />
             </LinearLayout>
 
@@ -270,9 +237,9 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="شیڈول آرڈر"
+                    android:text="لگاتار"
                     android:textColor="@color/gray"
-                    android:textSize="18dp"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <net.igenius.customcheckbox.CustomCheckBox
@@ -280,27 +247,12 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    app:color_checked="@android:color/holo_blue_dark"
+                    app:color_checked="@color/lightGreen"
                     app:color_tick="#fff" />
             </LinearLayout>
 
         </LinearLayout>
-
     </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/ask"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:text="آپ کیا چاہتے ہیں ؟"
-        android:textColor="#000"
-        android:textSize="32dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

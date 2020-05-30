@@ -7,11 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
 import pakzarzameen.com.pk.khalis.Utils.FbContract;
 
 public class PreviousAdapter extends RecyclerView.Adapter<PreviousAdapter.ContactViewHolder> {
@@ -48,7 +49,7 @@ public class PreviousAdapter extends RecyclerView.Adapter<PreviousAdapter.Contac
             } else
                 contactViewHolder.customdays.setVisibility(View.GONE);
         }
-        contactViewHolder.milk.setText(ci.getMilkQuantity() + "Kg");
+        contactViewHolder.milk.setText(ci.getBuffaloMilkQuantity() + "Kg");
         contactViewHolder.yogurt.setText(ci.getYogurtQuantity() + "Kg");
         contactViewHolder.time.setText(normalTime);
     }
@@ -73,8 +74,8 @@ public class PreviousAdapter extends RecyclerView.Adapter<PreviousAdapter.Contac
 
         public ContactViewHolder(View v) {
             super(v);
-            milk = (TextView) v.findViewById(R.id.tvMilkquant);
-            yogurt = (TextView) v.findViewById(R.id.tvYogurt_quant);
+            milk = (TextView) v.findViewById(R.id.tvBM);
+            yogurt = (TextView) v.findViewById(R.id.tvY);
             order_type = (TextView) v.findViewById(R.id.tvOrderTitle);
             schedule_type = (TextView) v.findViewById(R.id.tvScheduletype);
             customdays = (TextView) v.findViewById(R.id.tvCustomdays);

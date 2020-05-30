@@ -239,11 +239,17 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
                 contactViewHolder.customdays.setVisibility(View.GONE);
         }
         if (appLanguageManager.getAppLanguage().equals("ar")) {
-            contactViewHolder.milk.setText(ci.getMilkQuantity() + "کلو");
-            contactViewHolder.yogurt.setText(ci.getYogurtQuantity() + "کلو");
+            contactViewHolder.buffaloMilk.setText("Buffalo (" + ci.getBuffaloMilkQuantity() + ")کلو ");
+            contactViewHolder.cowMilk.setText("Cow (" + ci.getCowMilkQuantity() + ")کلو ");
+            contactViewHolder.yogurt.setText("Yogurt (" + ci.getYogurtQuantity() + ")کلو ");
+            contactViewHolder.butter.setText("Butter (" + ci.getButterQuantity() + ")کلو ");
+            contactViewHolder.ghee.setText("Ghee (" + ci.getGheeQuantity() + ")کلو ");
         } else {
-            contactViewHolder.milk.setText(ci.getMilkQuantity() + "Kg");
-            contactViewHolder.yogurt.setText(ci.getYogurtQuantity() + "Kg");
+            contactViewHolder.buffaloMilk.setText("Buffalo (" + ci.getBuffaloMilkQuantity() + " liter)");
+            contactViewHolder.cowMilk.setText("Cow (" + ci.getCowMilkQuantity() + " liter)");
+            contactViewHolder.yogurt.setText("Yogurt (" + ci.getYogurtQuantity() + " kg)");
+            contactViewHolder.butter.setText("Butter (" + ci.getButterQuantity() + " kg)");
+            contactViewHolder.ghee.setText("Ghee (" + ci.getGheeQuantity() + " kg)");
         }
         contactViewHolder.time.setText(normalTime);
     }
@@ -288,8 +294,8 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
     }
 
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
-        protected TextView milk;
-        protected TextView yogurt;
+        protected TextView buffaloMilk, cowMilk;
+        protected TextView yogurt, butter, ghee;
         protected TextView order_type, schedule_type;
         protected TextView customdays;
         protected TextView time;
@@ -299,8 +305,11 @@ public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.ContactV
 
         public ContactViewHolder(View v) {
             super(v);
-            milk = (TextView) v.findViewById(R.id.tvMilkquant);
-            yogurt = (TextView) v.findViewById(R.id.tvYogurt_quant);
+            buffaloMilk = (TextView) v.findViewById(R.id.tvBM);
+            cowMilk = (TextView) v.findViewById(R.id.tvCM);
+            yogurt = (TextView) v.findViewById(R.id.tvY);
+            butter = (TextView) v.findViewById(R.id.tvB);
+            ghee = (TextView) v.findViewById(R.id.tvG);
             order_type = (TextView) v.findViewById(R.id.tvOrderTitle);
             schedule_type = (TextView) v.findViewById(R.id.tvScheduletype);
             customdays = (TextView) v.findViewById(R.id.tvCustomdays);

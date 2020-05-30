@@ -35,6 +35,14 @@ public class LoginActivity extends AppCompatActivity {
         setUpUI();
         if (!LoginActivityCheck.isAlreadyCalled) {
             selectLanguageDialog();
+//            if(LoginActivityCheck.isAlreadyCalled){
+//                Intent setSmsAppIntent =
+//                        new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+//                setSmsAppIntent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
+//                        getPackageName());
+//                startActivityForResult(setSmsAppIntent, 12345);
+//            }
+
         }
     }
 

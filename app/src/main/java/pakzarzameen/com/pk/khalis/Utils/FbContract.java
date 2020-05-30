@@ -5,8 +5,12 @@ import java.util.List;
 
 public class FbContract implements Serializable {
     private Long TimeStamp;
-    private double MilkQuantity;
-    private double YogurtQuantity;
+    private Float BuffaloMilkQuantity;
+    private Float CowMilkQuantity;
+    private Float YogurtQuantity;
+    private Float ButterQuantity;
+    private Float GheeQuantity;
+    private Float Total;
     private String OrderType;
     private String ScheduleType;
     private String Address;
@@ -14,6 +18,8 @@ public class FbContract implements Serializable {
     private String status;
     private String Payment;
     private String Name;
+    private String ButterDetail;
+    private String GheeDetail;
 
     public FbContract() {
 
@@ -27,20 +33,52 @@ public class FbContract implements Serializable {
         TimeStamp = timeStamp;
     }
 
-    public double getMilkQuantity() {
-        return MilkQuantity;
+    public Float getBuffaloMilkQuantity() {
+        return BuffaloMilkQuantity;
     }
 
-    public void setMilkQuantity(double milkQuantity) {
-        MilkQuantity = milkQuantity;
+    public void setBuffaloMilkQuantity(Float milkQuantity) {
+        BuffaloMilkQuantity = milkQuantity;
     }
 
-    public double getYogurtQuantity() {
+    public Float getTotal() {
+        return Total;
+    }
+
+    public void setTotal(Float sum) {
+        Total = sum;
+    }
+
+    public Float getCowMilkQuantity() {
+        return CowMilkQuantity;
+    }
+
+    public void setCowMilkQuantity(Float milkQuantity) {
+        CowMilkQuantity = milkQuantity;
+    }
+
+    public Float getYogurtQuantity() {
         return YogurtQuantity;
     }
 
-    public void setYogurtQuantity(double yogurtQuantity) {
-        YogurtQuantity = yogurtQuantity;
+    public void setYogurtQuantity(Float Quantity) {
+        YogurtQuantity = Quantity;
+    }
+
+    public Float getButterQuantity() {
+        return ButterQuantity;
+    }
+
+    public void setButterQuantity(Float Quantity) {
+        ButterQuantity = Quantity;
+    }
+
+    public Float getGheeQuantity() {
+        return GheeQuantity;
+    }
+
+    public void setGheeQuantity(Float Quantity) {
+        GheeQuantity = Quantity;
     }
 
     public String getOrderType() {
@@ -97,5 +135,21 @@ public class FbContract implements Serializable {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public String getButterDetail() {
+        return ButterDetail;
+    }
+
+    public void setButterDetail(String detail) {
+        ButterDetail = detail;
+    }
+
+    public String getGheeDetail() {
+        return GheeDetail;
+    }
+
+    public void setGheeDetail(String detail) {
+        GheeDetail = detail;
     }
 }

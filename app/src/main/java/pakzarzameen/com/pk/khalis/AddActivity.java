@@ -331,12 +331,30 @@ public class AddActivity extends AppCompatActivity {
         if (custom_pick)
             contract.setDays(weekday_pick.getSelectedDaysText());
 
-        mDatabase.push().setValue(contract);
-        setTimeContract();
+//        mDatabase.push().setValue(contract);
+        Date date = new Date();
+        String key = date.toString();
+        mDatabase.child(key).child("buffaloMilkQuantity").setValue(contract.getBuffaloMilkQuantity());
+        mDatabase.child(key).child("cowMilkQuanity").setValue(contract.getCowMilkQuantity());
+        mDatabase.child(key).child("yogurtQuantity").setValue(contract.getYogurtQuantity());
+        mDatabase.child(key).child("butterQuantity").setValue(contract.getButterQuantity());
+        mDatabase.child(key).child("gheeQuantity").setValue(contract.getGheeQuantity());
+        mDatabase.child(key).child("gheeDetail").setValue(contract.getGheeDetail());
+        mDatabase.child(key).child("butterDetail").setValue(contract.getButterDetail());
+        mDatabase.child(key).child("address").setValue(contract.getAddress());
+        mDatabase.child(key).child("status").setValue(contract.getStatus());
+        mDatabase.child(key).child("timeStamp").setValue(contract.getTimeStamp());
+        mDatabase.child(key).child("scheduleType").setValue(contract.getScheduleType());
+        mDatabase.child(key).child("payment").setValue(contract.getPayment());
+        mDatabase.child(key).child("name").setValue(contract.getName());
+        mDatabase.child(key).child("days").setValue(contract.getDays());
+        mDatabase.child(key).child("orderType").setValue(contract.getOrderType());
+        mDatabase.child(key).child("total").setValue(contract.getTotal());
+        //setTimeContract();
 
     }
 
-    private void setTimeContract(){
+    private void setTimeContract() {
         if (userMetadata.getCreationTimestamp() == userMetadata.getLastSignInTimestamp()) {
             nusers = 1;
             norders = 1;
@@ -348,20 +366,18 @@ public class AddActivity extends AppCompatActivity {
             tcontract.setNewUsers(0);
             tcontract.setNewOrders(1);
         }
-        mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
+        mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/" + currentDate);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.getValue() == null) {
 //                    mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
                     mDatabase.setValue(tcontract);
-                }
-                else
-                {
+                } else {
 //                    mDatabase = FirebaseDatabase.getInstance().getReference("/Test/Time/"+currentDate);
                     tcontract = snapshot.getValue(TimeContract.class);
-                    tcontract.setNewOrders(tcontract.getNewOrders()+norders);
-                    tcontract.setNewUsers(tcontract.getNewUsers()+nusers);
+                    tcontract.setNewOrders(tcontract.getNewOrders() + norders);
+                    tcontract.setNewUsers(tcontract.getNewUsers() + nusers);
                     mDatabase.setValue(tcontract);
                 }
             }
@@ -372,6 +388,7 @@ public class AddActivity extends AppCompatActivity {
             }
         });
     }
+
     private boolean isValid() {
         if (onetime && timepick.getText().toString().trim().length() > 0)
             return true;

@@ -95,19 +95,44 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="80dp"
-                    android:layout_weight="2.5"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1.25"
                     android:background="@drawable/ic_milk" />
 
-                <TextView
-                    android:id="@+id/tvMilkquant"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_gravity="center"
+                    android:layout_weight="2.75"
                     android:gravity="center"
-                    android:text="7Kg"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/tvBM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="7Kg"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="7Kg"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -147,21 +172,55 @@
                 android:orientation="horizontal"
                 android:weightSum="4">
 
-                <TextView
-                    android:id="@+id/tvYogurt_quant"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_gravity="center"
+                    android:layout_weight="2.5"
                     android:gravity="center"
-                    android:text="4.0Kg"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/tvY"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="7Kg"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="7Kg"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvG"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="7Kg"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="80dp"
-                    android:layout_weight="2.5"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1.5"
                     android:background="@drawable/ic_yogurt" />
 
 
