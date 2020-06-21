@@ -53,6 +53,9 @@ UID
     |__TOTAL
 ```
 
+### Crashlytics
+We are using Crashlytics to keep bugs away and provide crash free experience to our users.
 
-
+## Language Support
+App is available in **English** and **Urdu**. More languages coming soon.
 
